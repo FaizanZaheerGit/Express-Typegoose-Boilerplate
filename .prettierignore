@@ -10,3 +10,4 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 Dockerfile
+docker-compose.yaml
