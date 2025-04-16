@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: Express Typegoose Boierplate APIs
+  version: 1.0.0
+  description: 'This is a Boilerplate API application made with Express and Typegoose documented with Swagger'
+  license:
+    name: 'MIT'
+    url: 'https://spdx.org/licenses/MIT.html'
+  
+paths:
+  /api/v1/users:
+    post:
+      summary: Create a new user
+      tags:
+        - UsersModule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserInput'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterUserResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    RegisterUserInput:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        phoneNumber:
+          type: string
+
+    RegisterUserResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 201
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            entity:
+              type: object
+              properties:
+                _id:
+                  type: string
+  security:
+    - bearerAuth: []
+
+servers:
+  - url: http://localhost:5000
+    description: Local Environment
+
+  - url: https://staging.com
+    description: Staging Environment
