@@ -14,6 +14,7 @@ This Project contains the following: -
 7. Event emitter publisher and subscriber pattern for optimization
 8. prettier and eslint setup
 9. Swagger API documentation
+10. Optimized Docker build
 
 For running this example run cmd on cli, npm run start,
 
