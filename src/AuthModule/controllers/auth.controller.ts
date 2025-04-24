@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { NextFunction, Request, Response } from 'express';
 import { sendResponse } from '@utils/response';
 import * as authService from '@auth/services/auth.service';
@@ -11,7 +12,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function logout(req: Request, res: Response, next: NextFunction) {
+export function logout(req: Request, res: Response, next: NextFunction) {
   try {
     return sendResponse(res, 200, true, {}, 'SUCCESS');
   } catch (error) {

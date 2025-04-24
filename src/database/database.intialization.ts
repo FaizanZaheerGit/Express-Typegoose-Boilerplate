@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import mongoose, { Mongoose } from 'mongoose';
 import { mongoDbUri } from '@config/index';
 

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
 import { NextFunction, Request, Response } from 'express';
 import { sendResponse } from '@utils/response';
 import { ZodError } from 'zod';
 import { AppError } from '@utils/apperror';
 
-export const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const globalErrorHandler = (err: any, req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof ZodError) {
     const errorMessageStrings: string[] = err.errors.flatMap((err) => `${err.message}`);
     return sendResponse(res, 400, false, {}, 'Validation Failed', errorMessageStrings);

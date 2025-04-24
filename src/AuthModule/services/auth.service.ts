@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/restrict-plus-operands */
 import { frontEndUrl } from '@config/index';
 import { StatusEnums } from '@enums/status.enums';
 import { User } from '@user/models/user.model';
@@ -54,7 +55,7 @@ export async function forgotPassword(body: { email: string }) {
     }
     const resetToken = uuidv4();
     await resetTokenRepository.create({ user: existingUser['_id'], token: resetToken });
-    const link: string = `${frontEndUrl}?id=${existingUser['_id']}&token=${resetToken}`;
+    const link: string = `${frontEndUrl}?id=${String(existingUser['_id'])}&token=${resetToken}`;
     publishEmailEvent({
       recipients: [email],
       subject: EmailSubjects.FORGOT_PASSWORD,
@@ -63,7 +64,7 @@ export async function forgotPassword(body: { email: string }) {
     });
     return {};
   } catch (error) {
-    console.error(error);
+    console.error('Error in Forgot Password Service:  =>  ' + error);
     throw new AppError('' + error, 400);
   }
 }
@@ -83,7 +84,7 @@ export async function resetPassword(body: { id: string; newPassword: string; tok
     await userService.updateUserPasswordById(id, hashedPassword);
     return {};
   } catch (error) {
-    console.error(error);
+    console.error('Error in Reset Password Service:  =>  ' + error);
     throw new AppError('' + error, 400);
   }
 }
@@ -111,7 +112,7 @@ export async function sendOtp(body: { id: string }) {
     }
     return {};
   } catch (error) {
-    console.error(error);
+    console.error('Error in send OTP Service:  =>  ' + error);
     throw new AppError('' + error, 400);
   }
 }
@@ -136,8 +137,7 @@ export async function verifyOtp(body: { id: string; token: string }) {
     });
     return {};
   } catch (error) {
-    console.error(error);
+    console.error('Error in Verify OTP Service:  =>  ' + error);
     throw new AppError('' + error, 400);
   }
 }
-// }

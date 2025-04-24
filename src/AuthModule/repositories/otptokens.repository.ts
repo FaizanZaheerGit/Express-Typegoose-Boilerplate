@@ -8,7 +8,9 @@ export class OtpTokenRepository extends BaseRespository<OtpToken> implements IOt
     super(OtpTokenModel);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async createToken(user: any, token: string): Promise<OtpToken> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return await this.create({ user, token });
   }
 

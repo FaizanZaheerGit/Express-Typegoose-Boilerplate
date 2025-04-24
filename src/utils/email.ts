@@ -35,12 +35,16 @@ export const sendEmails = (
     })
     .then(
       (val) => {
+        // eslint-disable-next-line no-console
         console.log(`EMAIL SENT SUCCESSFULLY!  =>  STATUS:  ${val[0]?.statusCode}`);
         return true;
       },
       (error) => {
+        // eslint-disable-next-line no-console
         console.error(error);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (error?.response) {
+          // eslint-disable-next-line no-console, @typescript-eslint/no-unsafe-member-access
           console.error('ERROR IN SENDING EMAIL:  =>  ' + error?.response?.body);
         }
         return false;

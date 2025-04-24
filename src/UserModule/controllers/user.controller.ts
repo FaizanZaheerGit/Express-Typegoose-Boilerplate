@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */
 import { NextFunction, Request, Response } from 'express';
 import { sendResponse } from '@utils/response';
 import * as userService from '@user/services/user.service';
@@ -29,7 +30,7 @@ export async function readUserById(req: Request, res: Response, next: NextFuncti
   }
 }
 
-export async function readCurrentUserDetails(req: Request, res: Response, next: NextFunction) {
+export function readCurrentUserDetails(req: Request, res: Response, next: NextFunction) {
   try {
     return sendResponse(res, 200, true, { entity: req?.user }, 'SUCCESS');
   } catch (error) {

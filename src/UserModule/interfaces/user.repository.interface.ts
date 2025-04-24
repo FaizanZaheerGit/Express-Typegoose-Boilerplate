@@ -48,6 +48,7 @@ export abstract class IUserRepository {
     filterQuery: FilterQuery<User>,
     deleteOptions?: DeleteOptions,
   ): Promise<DeleteResult>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract aggregate(stages: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<any>>;
   abstract getUserByEmail(email: string): Promise<User | null>;
   abstract getUserById(id: string): Promise<User | null>;

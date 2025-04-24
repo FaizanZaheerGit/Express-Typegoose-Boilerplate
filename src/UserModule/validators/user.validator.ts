@@ -1,11 +1,9 @@
 import {
-  createdAtValidation,
   emailValidation,
   mongoIdValidation,
   nameValidation,
   optionalEmailValidation,
   phoneNumberValidation,
-  searchKeywordValidation,
   statusValidation,
   strongPasswordValidation,
   userTypeValidation,

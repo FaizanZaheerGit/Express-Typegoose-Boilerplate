@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 import passport from 'passport';
 import { Request, Response, NextFunction } from 'express';
 import { sendResponse } from '@utils/response';

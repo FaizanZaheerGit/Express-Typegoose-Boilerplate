@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/restrict-plus-operands */
 import { FilterQuery } from 'mongoose';
 import { User } from '@user/models/user.model';
 import { UserRepository } from '@user/repositories/user.repository';

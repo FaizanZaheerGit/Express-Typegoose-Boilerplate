@@ -1,3 +1,4 @@
+/* eslint-disable no-console, @typescript-eslint/restrict-plus-operands */
 import { adminEmail, adminName, adminPassword } from '@config/index';
 import { UserTypeEnum } from '@enums/userType.enum';
 import { IUserRepository } from '@user/interfaces/user.repository.interface';

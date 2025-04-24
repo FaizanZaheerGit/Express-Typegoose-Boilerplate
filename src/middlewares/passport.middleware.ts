@@ -16,6 +16,7 @@ const cookieExtractor = (req: Request) => {
     try {
       token = decryptToken(encryptedToken);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       throw new AppError('Invalid token', 400);
     }
@@ -29,8 +30,10 @@ const opts = {
 };
 
 passport.use(
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   new JwtStategy(opts, async (payload, done) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       const user = await userRepository.getUserByEmail(payload.email);
       if (user) {
         return done(null, user);

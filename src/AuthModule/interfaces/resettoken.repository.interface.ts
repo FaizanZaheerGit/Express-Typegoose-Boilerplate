@@ -52,7 +52,9 @@ export abstract class IResetTokenRepository {
     filterQuery: FilterQuery<ResetToken>,
     deleteOptions?: DeleteOptions,
   ): Promise<DeleteResult>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract aggregate(stages: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<any>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract createToken(user: any, token: string): Promise<ResetToken>;
   abstract getByTokenAndUser(user: User, token: string): Promise<ResetToken | null>;
 }

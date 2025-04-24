@@ -11,7 +11,9 @@ export class ResetTokenRepository
     super(ResetTokenModel);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async createToken(user: any, token: string): Promise<ResetToken> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return await this.create({ user, token });
   }
 
