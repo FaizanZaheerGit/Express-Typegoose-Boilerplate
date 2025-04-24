@@ -4,6 +4,7 @@ import * as userController from '@user/controllers/user.controller';
 import { validate } from '@middlewares/validate.middleware';
 import {
   createUserSchema,
+  getPaginatedUsersSchema,
   getUsersSchema,
   idParamSchema,
   updateUserSchema,
@@ -14,6 +15,12 @@ const userRouter: Router = Router();
 userRouter.post('/', [validate({ body: createUserSchema })], userController.createUser);
 
 userRouter.get('/', [authenticate, validate({ query: getUsersSchema })], userController.readUsers);
+
+userRouter.get(
+  '/paginated',
+  [authenticate, validate({ query: getPaginatedUsersSchema })],
+  userController.readPaginatedUsers,
+);
 
 userRouter.get('/me', authenticate, userController.readCurrentUserDetails);
 

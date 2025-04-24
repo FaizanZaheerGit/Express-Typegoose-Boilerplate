@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Aggregate,
   AggregateOptions,
@@ -9,7 +10,6 @@ import {
   UpdateQuery,
   UpdateWriteOpResult,
 } from 'mongoose';
-import { DeleteOptions, UpdateOptions } from 'mongodb';
 import { StatusEnums } from '@enums/status.enums';
 
 export class BaseRespository<T> {
@@ -78,23 +78,16 @@ export class BaseRespository<T> {
   async updateMany(
     filterQuery: FilterQuery<T>,
     updateQuery: UpdateQuery<T>,
-    updateOptions: UpdateOptions = {},
   ): Promise<UpdateWriteOpResult> {
-    return await this.model.updateMany(filterQuery, updateQuery, updateOptions);
+    return await this.model.updateMany(filterQuery, updateQuery);
   }
 
-  async deleteOne(
-    filterQuery: FilterQuery<T>,
-    deleteOptions: DeleteOptions = {},
-  ): Promise<DeleteResult> {
-    return await this.model.deleteOne(filterQuery, deleteOptions);
+  async deleteOne(filterQuery: FilterQuery<T>): Promise<DeleteResult> {
+    return await this.model.deleteOne(filterQuery);
   }
 
-  async deleteMany(
-    filterQuery: FilterQuery<T>,
-    deleteOptions: DeleteOptions,
-  ): Promise<DeleteResult> {
-    return await this.model.deleteMany(filterQuery, deleteOptions);
+  async deleteMany(filterQuery: FilterQuery<T>): Promise<DeleteResult> {
+    return await this.model.deleteMany(filterQuery);
   }
 
   async aggregate(

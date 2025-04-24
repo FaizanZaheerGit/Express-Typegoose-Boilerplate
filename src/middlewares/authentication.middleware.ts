@@ -6,7 +6,7 @@ import { sendResponse } from '@utils/response';
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', { session: false }, (err: any, user: any, info: any) => {
     if (err || !user) {
-      return sendResponse(res, 401, false, {}, 'Unauthorized', [
+      return sendResponse(res, 401, false, {}, 'Unauthorized', null, [
         info?.message || 'Authentication failed',
       ]);
     }

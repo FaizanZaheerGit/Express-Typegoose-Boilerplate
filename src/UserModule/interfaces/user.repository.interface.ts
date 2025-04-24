@@ -53,6 +53,11 @@ export abstract class IUserRepository {
   abstract getUserByEmail(email: string): Promise<User | null>;
   abstract getUserById(id: string): Promise<User | null>;
   abstract getSingleActiveAdmin(): Promise<User | null>;
+  abstract getPaginatedUsers(
+    page: number,
+    limit: number,
+    filterQuery: FilterQuery<User>,
+  ): Promise<User[]>;
   abstract getUsers(filterQuery: FilterQuery<User>): Promise<User[]>;
   abstract getSingleUser(filterQuery: FilterQuery<User>): Promise<User | null>;
   abstract updateUserById(id: string, updateQuery: Partial<User>): Promise<User | null>;

@@ -1,8 +1,10 @@
 import {
   emailValidation,
+  limitValidation,
   mongoIdValidation,
   nameValidation,
   optionalEmailValidation,
+  pageValidation,
   phoneNumberValidation,
   statusValidation,
   strongPasswordValidation,
@@ -24,6 +26,16 @@ export const getUsersSchema = z
     email: optionalEmailValidation,
     userType: userTypeValidation,
     status: statusValidation,
+  })
+  .strict('Remove any extra keys other than [email, userType, status]');
+
+export const getPaginatedUsersSchema = z
+  .object({
+    email: optionalEmailValidation,
+    userType: userTypeValidation,
+    status: statusValidation,
+    page: pageValidation,
+    limit: limitValidation,
   })
   .strict('Remove any extra keys other than [email, userType, status]');
 

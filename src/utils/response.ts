@@ -7,6 +7,7 @@ export const sendResponse = (
   success: boolean,
   data: any = {},
   message: string,
+  meta: any = null,
   error: any = null,
 ) => {
   res.status(statusCode).json({
@@ -14,6 +15,7 @@ export const sendResponse = (
     data,
     message,
     success,
+    ...(meta ? { meta } : {}),
     ...(error ? { error } : {}),
   });
 };

@@ -6,6 +6,7 @@ import { StatusEnums } from '@enums/status.enums';
 import { UserTypeEnum } from '@enums/userType.enum';
 import { AppError } from '@utils/apperror';
 import { IUserRepository } from '@user/interfaces/user.repository.interface';
+import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
 
 const userRepository: IUserRepository = new UserRepository();
 
@@ -61,6 +62,31 @@ export async function getUsers(filterQuery: FilterQuery<User> = {}): Promise<Use
     console.error('Error in get users service:  =>  ' + error);
     throw new AppError('' + error, 400);
   }
+}
+
+export async function getPaginatedUser(
+  page: string = '1',
+  limit: string = '10',
+  filterQuery: FilterQuery<User> = {},
+): Promise<{ users: User[]; meta: PaginationMetaType }> {
+  const pageInt: number = parseInt(page, 10);
+  const limitInt: number = parseInt(limit, 10);
+  const [users, totalCount] = await Promise.all([
+    userRepository.getPaginatedUsers(pageInt, limitInt, filterQuery),
+    userRepository.countDocuments(filterQuery),
+  ]);
+  const totalPages = Math.ceil(totalCount / limitInt);
+  const hasNext: boolean = pageInt < totalPages;
+  return {
+    users,
+    meta: {
+      currentPage: pageInt,
+      hasNext,
+      pageSize: limitInt,
+      totalCount,
+      totalPages,
+    },
+  };
 }
 
 export async function getUser(filterQuery: FilterQuery<User> = {}): Promise<User | null> {

@@ -21,6 +21,18 @@ export async function readUsers(req: Request, res: Response, next: NextFunction)
   }
 }
 
+export async function readPaginatedUsers(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { page, limit, ...filterQuery } = req.query;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const { users, meta } = await userService.getPaginatedUser(page, limit, filterQuery);
+    return sendResponse(res, 200, true, { entites: users }, 'SUCCESS', meta);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function readUserById(req: Request, res: Response, next: NextFunction) {
   try {
     const existingUser = await userService.getUser({ _id: req.params.id });

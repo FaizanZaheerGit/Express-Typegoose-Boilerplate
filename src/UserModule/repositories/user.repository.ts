@@ -17,6 +17,14 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
     return await this.findOne({ userType: UserTypeEnum.ADMIN });
   }
 
+  async getPaginatedUsers(
+    page: number,
+    limit: number,
+    filterQuery: FilterQuery<User>,
+  ): Promise<User[]> {
+    return await this.findPaginated(page, limit, filterQuery, { projection: { password: 0 } });
+  }
+
   async getUsers(filterQuery: FilterQuery<User>): Promise<User[]> {
     return await this.findAll(filterQuery, { projection: { password: 0 } });
   }
