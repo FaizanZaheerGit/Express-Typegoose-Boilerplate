@@ -1,4 +1,5 @@
 # Express-Typegoose-Boilerplate
+
 This is a Boilerplate project for using Express with Typescript using Typegoose for ORM for MongoDB connection
 
 Created By Faizan Zaheer
@@ -19,3 +20,5 @@ This Project contains the following: -
 For running this example run cmd on cli, npm run start,
 
 For running in development watch mode, run cmd on cli, npm run dev
+
+Before running docker build or docker-compose up , make sure to run pnpm i to generate a pnpm-lock.yaml file
