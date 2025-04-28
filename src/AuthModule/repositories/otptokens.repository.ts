@@ -2,6 +2,7 @@ import { IOtpTokenRepository } from '@auth/interfaces/otptoken.repository.interf
 import { OtpToken, OtpTokenModel } from '@auth/models/otptoken.model';
 import { BaseRespository } from '@database/repositories/base.repository';
 import { User } from '@user/models/user.model';
+import { Types } from 'mongoose';
 
 export class OtpTokenRepository extends BaseRespository<OtpToken> implements IOtpTokenRepository {
   constructor() {
@@ -16,5 +17,16 @@ export class OtpTokenRepository extends BaseRespository<OtpToken> implements IOt
 
   async getByTokenAndUser(user: User, token: string): Promise<OtpToken | null> {
     return await this.findOne({ user, token });
+  }
+
+  async updateTokenExpiryByUserIdAndToken(
+    userId: string,
+    token: string,
+    isExpired: boolean,
+  ): Promise<OtpToken | null> {
+    return await this.findOneAndUpdate(
+      { user: new Types.ObjectId(userId), token: token },
+      { $set: { isExpired: isExpired } },
+    );
   }
 }

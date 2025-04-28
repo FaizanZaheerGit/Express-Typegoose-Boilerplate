@@ -81,7 +81,14 @@ export async function resetPassword(body: { id: string; newPassword: string; tok
       throw new AppError('Invalid or Expired Token', 400);
     }
     const hashedPassword = await generateHash(newPassword);
-    await userService.updateUserPasswordById(id, hashedPassword);
+    await Promise.all([
+      userService.updateUserPasswordById(id, hashedPassword),
+      resetTokenRepository.updateTokenExpiryByUserIdAndToken(
+        String(existingUser['_id']),
+        token,
+        true,
+      ),
+    ]);
     return {};
   } catch (error) {
     console.error('Error in Reset Password Service:  =>  ' + error);
@@ -128,7 +135,14 @@ export async function verifyOtp(body: { id: string; token: string }) {
     if (!existingOtp || existingOtp?.isExpired) {
       throw new AppError('Invalid or Expired Token', 400);
     }
-    await userService.updateUser(id, { status: StatusEnums.ACTIVE });
+    await Promise.all([
+      userService.updateUser(id, { status: StatusEnums.ACTIVE }),
+      otpTokenRepository.updateTokenExpiryByUserIdAndToken(
+        String(existingUser['_id']),
+        token,
+        true,
+      ),
+    ]);
     publishEmailEvent({
       recipients: [existingUser?.email || ''],
       subject: EmailSubjects.VERIFY_OTP,

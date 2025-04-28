@@ -51,7 +51,7 @@ export async function createUser(body: {
     return await userRepository.create({ ...body, status: StatusEnums.PENDING });
   } catch (error) {
     console.error('Error in create user service:  =>  ' + error);
-    throw new AppError('Error:  =>  ' + error, 400);
+    throw new AppError('' + error, 400);
   }
 }
 

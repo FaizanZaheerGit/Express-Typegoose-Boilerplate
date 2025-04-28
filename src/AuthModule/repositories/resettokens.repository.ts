@@ -2,6 +2,7 @@ import { IResetTokenRepository } from '@auth/interfaces/resettoken.repository.in
 import { ResetToken, ResetTokenModel } from '@auth/models/resettoken.model';
 import { BaseRespository } from '@database/repositories/base.repository';
 import { User } from '@user/models/user.model';
+import { Types } from 'mongoose';
 
 export class ResetTokenRepository
   extends BaseRespository<ResetToken>
@@ -19,5 +20,16 @@ export class ResetTokenRepository
 
   async getByTokenAndUser(user: User, token: string): Promise<ResetToken | null> {
     return await this.findOne({ user, token });
+  }
+
+  async updateTokenExpiryByUserIdAndToken(
+    userId: string,
+    token: string,
+    isExpired: boolean,
+  ): Promise<ResetToken | null> {
+    return await this.findOneAndUpdate(
+      { user: new Types.ObjectId(userId), token: token },
+      { $set: { isExpired: isExpired } },
+    );
   }
 }
