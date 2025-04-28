@@ -10,6 +10,10 @@ export class UserRepository extends BaseRespository<User> implements IUserReposi
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
+    return await this.findOne({ email }, { projection: { password: 0 } });
+  }
+
+  async getUserByEmailWithPassword(email: string): Promise<User | null> {
     return await this.findOne({ email });
   }
 

@@ -20,7 +20,7 @@ const resetTokenRepository: IResetTokenRepository = new ResetTokenRepository();
 
 export async function login(body: { email: string; password: string }) {
   try {
-    const existingUser: User | null = await userService.getUserByEmail(body.email);
+    const existingUser: User | null = await userService.getUserByEmailWithPassword(body.email);
     if (!existingUser) {
       throw new AppError('Invalid email or password', 400);
     }
@@ -49,7 +49,7 @@ export async function login(body: { email: string; password: string }) {
 export async function forgotPassword(body: { email: string }) {
   const { email } = body;
   try {
-    const existingUser: User | null = await userService.getUserByEmail(email);
+    const existingUser: User | null = await userService.getUserByEmailWithPassword(email);
     if (!existingUser) {
       throw new AppError('User does not exist', 404);
     }

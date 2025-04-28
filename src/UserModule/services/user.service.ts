@@ -10,9 +10,9 @@ import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
 
 const userRepository: IUserRepository = new UserRepository();
 
-export async function getUserByEmail(email: string): Promise<User | null> {
+export async function getUserByEmailWithPassword(email: string): Promise<User | null> {
   try {
-    return await userRepository.getUserByEmail(email);
+    return await userRepository.getUserByEmailWithPassword(email);
   } catch (error) {
     console.error('Error in get user by email service:  =>  ' + error);
     throw new AppError('' + error, 400);

@@ -51,6 +51,7 @@ export abstract class IUserRepository {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract aggregate(stages: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<any>>;
   abstract getUserByEmail(email: string): Promise<User | null>;
+  abstract getUserByEmailWithPassword(email: string): Promise<User | null>;
   abstract getUserById(id: string): Promise<User | null>;
   abstract getSingleActiveAdmin(): Promise<User | null>;
   abstract getPaginatedUsers(
