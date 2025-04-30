@@ -20,6 +20,10 @@ export const sendGridFromEmail = process.env.SENDGRID_FROM_EMAIL || '';
 export const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID || '';
 export const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN || '';
 export const twilioFromNumber = process.env.TWILIO_FROM_NUMBER || '';
+export const redisHost = process.env.REDIS_HOST;
+export const redisPort = process.env.REDIS_PORT ? Number(process.env.REDIS_PORT) : 6379;
+export const redisUsername = process.env.REDIS_USERNAME || '';
+export const redisPassword = process.env.REDIS_PASSWORD || '';
 
 const envSchema = z.object({
   PORT: z.string().optional().default('5000'),
@@ -36,6 +40,10 @@ const envSchema = z.object({
   TWILIO_ACCOUNT_SID: z.string().min(1, 'TWILIO_ACCOUNT_SID is required'),
   TWILIO_AUTH_TOKEN: z.string().min(1, 'TWILIO_AUTH_TOKEN is required'),
   TWILIO_FROM_NUMBER: z.string().min(1, 'TWILIO_FROM_NUMBER is required'),
+  REDIS_HOST: z.string().optional().default(''),
+  REDIS_PORT: z.string().optional().default('6379'),
+  REDIS_USERNAME: z.string().optional().default(''),
+  REDIS_PASSWORD: z.string().optional().default(''),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

@@ -5,6 +5,7 @@ coverage/
 .gitignore
 *.log
 *.txt
+*.md
 .env
 package-lock.json
 yarn.lock
