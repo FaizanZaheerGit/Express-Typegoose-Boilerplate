@@ -1,5 +1,6 @@
 import { sendGridApiKey, sendGridFromEmail } from '@config/index';
 import sgMail from '@sendgrid/mail';
+import logger from '@utils/logger';
 
 sgMail.setApiKey(sendGridApiKey);
 
@@ -35,17 +36,15 @@ export const sendEmails = (
     })
     .then(
       (val) => {
-        // eslint-disable-next-line no-console
-        console.log(`EMAIL SENT SUCCESSFULLY!  =>  STATUS:  ${val[0]?.statusCode}`);
+        logger.info({}, `E-mail sent successfully!  =>  STATUS:  ${val[0]?.statusCode}`);
         return true;
       },
       (error) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
+        logger.error({}, `${error}`);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (error?.response) {
-          // eslint-disable-next-line no-console, @typescript-eslint/no-unsafe-member-access
-          console.error('ERROR IN SENDING EMAIL:  =>  ' + error?.response?.body);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          logger.error({}, `ERROR IN SENDING EMAIL:  =>  ${error?.response?.body}`);
         }
         return false;
       },

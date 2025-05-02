@@ -14,6 +14,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
 import '@auth/eventemitters/subscriber/auth.subscriber'; // NOTE: This is for initializing listener
+import logger from '@utils/logger';
 
 const app: Express = express();
 
@@ -46,6 +47,5 @@ if (nodeEnv !== 'production') {
 }
 
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server is running and listening on port: ${port}`);
+  logger.info({}, `Server is running and listening on PORT: ${port}`);
 });

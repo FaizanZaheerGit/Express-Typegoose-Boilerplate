@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import IoRedis from 'ioredis';
 import { redisHost, redisPort, redisUsername, redisPassword } from '@config/index';
+import logger from '@utils/logger';
 
 export const redisConnection: IoRedis = new IoRedis({
   host: redisHost || 'localhost',
@@ -11,9 +11,9 @@ export const redisConnection: IoRedis = new IoRedis({
 });
 
 redisConnection.on('connect', () => {
-  console.log('Redis Connected!');
+  logger.info({}, 'Redis Connected!');
 });
 
 redisConnection.on('error', (err) => {
-  console.log(`Error in connecting redis:  ${err.message}`);
+  logger.info({}, `Error in connecting redis:  ${err.message}`);
 });

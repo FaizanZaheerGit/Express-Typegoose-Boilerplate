@@ -1,4 +1,4 @@
-/* eslint-disable no-console, @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/restrict-plus-operands, @typescript-eslint/restrict-template-expressions */
 import { frontEndUrl } from '@config/index';
 import { StatusEnums } from '@enums/status.enums';
 import { User } from '@user/models/user.model';
@@ -14,6 +14,7 @@ import { EmailSubjects, EmailBodies } from '@utils/email';
 import { SmsBodies } from '@utils/sms';
 import { IResetTokenRepository } from '@auth/interfaces/resettoken.repository.interface';
 import { IOtpTokenRepository } from '@auth/interfaces/otptoken.repository.interface';
+import logger from '@utils/logger';
 
 const otpTokenRepository: IOtpTokenRepository = new OtpTokenRepository();
 const resetTokenRepository: IResetTokenRepository = new ResetTokenRepository();
@@ -41,7 +42,7 @@ export async function login(body: { email: string; password: string }) {
     delete existingUser['password'];
     return { user: existingUser, token: encryptedToken };
   } catch (error) {
-    console.error('Error in login service:  =>  ' + error);
+    logger.error({ ...body }, `Error in login service:  =>  ${error}`);
     throw new AppError('' + error, 400);
   }
 }
@@ -64,7 +65,7 @@ export async function forgotPassword(body: { email: string }) {
     });
     return {};
   } catch (error) {
-    console.error('Error in Forgot Password Service:  =>  ' + error);
+    logger.error({ ...body }, `Error in Forgot Password Service:  =>  ${error}`);
     throw new AppError('' + error, 400);
   }
 }
@@ -91,7 +92,7 @@ export async function resetPassword(body: { id: string; newPassword: string; tok
     ]);
     return {};
   } catch (error) {
-    console.error('Error in Reset Password Service:  =>  ' + error);
+    logger.error({ ...body }, `Error in Reset Password Service:  =>  ${error}`);
     throw new AppError('' + error, 400);
   }
 }
@@ -119,7 +120,7 @@ export async function sendOtp(body: { id: string }) {
     }
     return {};
   } catch (error) {
-    console.error('Error in send OTP Service:  =>  ' + error);
+    logger.error({ ...body }, 'Error in send OTP Service:  =>  ' + error);
     throw new AppError('' + error, 400);
   }
 }
@@ -151,7 +152,7 @@ export async function verifyOtp(body: { id: string; token: string }) {
     });
     return {};
   } catch (error) {
-    console.error('Error in Verify OTP Service:  =>  ' + error);
+    logger.error({ ...body }, `Error in Verify OTP Service:  =>  ${error}`);
     throw new AppError('' + error, 400);
   }
 }

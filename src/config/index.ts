@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+import logger from '@utils/logger';
 import * as dotenv from 'dotenv';
 import { z } from 'zod';
 
@@ -49,10 +49,11 @@ const envSchema = z.object({
 const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-  console.error('Invalid environment variables:');
+  logger.error({}, 'Invalid environment variables:');
   parsedEnv.error.issues.forEach((issue) => {
-    console.error(issue?.path);
-    console.error(`- ${issue.message}`);
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    logger.error({}, `${issue?.path}`);
+    logger.error({}, `- ${issue.message}`);
   });
   process.exit(1);
 }

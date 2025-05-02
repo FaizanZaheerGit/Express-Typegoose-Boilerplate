@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import { twilioAccountSid, twilioAuthToken, twilioFromNumber } from '@config/index';
 import twilio from 'twilio';
+import logger from '@utils/logger';
 
 const twilioClient = twilio(twilioAccountSid, twilioAuthToken);
 
@@ -18,12 +18,12 @@ export const sendBulkSms = async (recipients: string[], body: string): Promise<b
           body,
         })
         .then((res) => {
-          console.log(`SMS sent to ${to} | SID: ${res.sid}`);
+          logger.info({}, `SMS sent to ${to} | SID ${res.sid}`);
           return true;
         })
         .catch((err) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          console.error(`Failed to send SMS to ${to} | Error: ${err.message}`);
+          logger.error({}, `Failed to send SMS to ${to} | Error:  ${err.message}`);
           return false;
         }),
     );
@@ -31,11 +31,11 @@ export const sendBulkSms = async (recipients: string[], body: string): Promise<b
     const results = await Promise.all(sendPromises);
     const successCount = results.filter((r) => r).length;
 
-    console.log(`${successCount}/${recipients.length} SMS messages sent successfully.`);
+    logger.info(`${successCount}/${recipients.length} SMS messages sent successfully`);
     return successCount === recipients.length;
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    console.error(`Unexpected error in sendBulkSms: ${error}`);
+    logger.error({}, `Error in sendBulkSms: ${error}`);
     return false;
   }
 };

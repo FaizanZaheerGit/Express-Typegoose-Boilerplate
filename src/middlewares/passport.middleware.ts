@@ -6,6 +6,7 @@ import { decryptToken } from '@utils/jwt';
 import { UserRepository } from '@user/repositories/user.repository';
 import { AppError } from '@utils/apperror';
 import { IUserRepository } from '@user/interfaces/user.repository.interface';
+import logger from '@utils/logger';
 
 const userRepository: IUserRepository = new UserRepository();
 
@@ -16,8 +17,8 @@ const cookieExtractor = (req: Request) => {
     try {
       token = decryptToken(encryptedToken);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      logger.error({}, `${error}`);
       throw new AppError('Invalid token', 400);
     }
   }
