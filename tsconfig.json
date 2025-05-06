@@ -37,6 +37,7 @@
       "@config/*": ["./config/*"],
       "@database/*": ["./database/*"],
       "@middlewares/*": ["./middlewares/*"],
+      "@roles/*": ["./RoleModule/*"],
       "@types/*": ["./types/*"],
       "@user/*": ["./UserModule/*"],
       "@utils/*": ["./utils/*"],

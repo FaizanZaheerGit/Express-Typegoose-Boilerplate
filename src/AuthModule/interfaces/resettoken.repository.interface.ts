@@ -14,6 +14,8 @@ import { User } from '@user/models/user.model';
 
 export abstract class IResetTokenRepository {
   abstract create(data: Partial<ResetToken>): Promise<ResetToken>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract insertMany(data: Partial<ResetToken>[]): Promise<any>;
   abstract findAll(
     filterQuery: FilterQuery<ResetToken>,
     queryOptions: QueryOptions<ResetToken>,

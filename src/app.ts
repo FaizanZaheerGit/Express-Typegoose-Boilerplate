@@ -15,6 +15,8 @@ import YAML from 'yamljs';
 
 import '@auth/eventemitters/subscriber/auth.subscriber'; // NOTE: This is for initializing listener
 import logger from '@utils/logger';
+import roleRouter from '@roles/routes/role.routes';
+import { createInitialRoles } from '@roles/seeders/role.seed';
 
 const app: Express = express();
 
@@ -32,9 +34,11 @@ app.get('/healthCheck', (req: Request, res: Response, next: NextFunction) => {
 
 void mongoDbConnection(); // NOTE: void added to remove typescript floating promise error
 void createInitialUser(); // NOTE: void added to remove typescript floating promise error
+void createInitialRoles(); // NOTE: void added to remove typescript floating promise error
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/roles', roleRouter);
 
 app.use(passport.initialize());
 app.use(globalErrorHandler);

@@ -37,7 +37,7 @@ export const getPaginatedUsersSchema = z
     page: pageValidation,
     limit: limitValidation,
   })
-  .strict('Remove any extra keys other than [email, userType, status]');
+  .strict('Remove any extra keys other than [email, userType, status, page, limit]');
 
 export const updateUserSchema = z
   .object({

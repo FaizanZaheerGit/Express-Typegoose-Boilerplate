@@ -14,6 +14,8 @@ import { User } from '@user/models/user.model';
 
 export abstract class IOtpTokenRepository {
   abstract create(data: Partial<OtpToken>): Promise<OtpToken>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract insertMany(data: Partial<OtpToken>[]): Promise<any>;
   abstract findAll(
     filterQuery: FilterQuery<OtpToken>,
     queryOptions: QueryOptions<OtpToken>,

@@ -1,3 +1,4 @@
+import { PermissionEnums } from '@enums/permissions.enum';
 import { StatusEnums } from '@enums/status.enums';
 import { UserTypeEnum } from '@enums/userType.enum';
 import { z } from 'zod';
@@ -60,16 +61,36 @@ export const pageValidation = z.string({
   required_error: 'page is required',
   invalid_type_error: 'page must be a string',
 });
-// .transform((val) => parseInt(val, 10))
-// .refine((val) => !isNaN(val), { message: 'page must be a number' })
-// .refine((val) => Number.isInteger(val), { message: 'page must be an integer' })
-// .refine((val) => val > 0, { message: 'page must be greater than 0' });
 
 export const limitValidation = z.string({
   required_error: 'limit is required',
   invalid_type_error: 'limit must be a string',
 });
-// .transform((val) => parseInt(val, 10))
-// .refine((val) => !isNaN(val), { message: 'limit must be a number' })
-// .refine((val) => Number.isInteger(val), { message: 'limit must be an integer' })
-// .refine((val) => val > 0, { message: 'limit must be greater than 0' });
+
+export const titleValidation = z.string({
+  required_error: 'title is required',
+  invalid_type_error: 'title must be a string',
+});
+
+export const optionalTitleValidation = z
+  .string({
+    invalid_type_error: 'title must be a string',
+  })
+  .optional();
+
+export const rightsValidation = z.array(
+  z.nativeEnum(PermissionEnums, {
+    required_error: 'rights array must not be empty',
+    invalid_type_error: 'Invalid value inside rights array',
+  }),
+  { required_error: 'rights are required', invalid_type_error: 'rights must be an array' },
+);
+
+export const optionalRightsValidation = z
+  .array(
+    z.nativeEnum(PermissionEnums, {
+      invalid_type_error: 'Invalid value inside rights array',
+    }),
+    { invalid_type_error: 'rights must be an array' },
+  )
+  .optional();

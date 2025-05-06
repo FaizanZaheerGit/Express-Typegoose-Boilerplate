@@ -1,0 +1,113 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands,@typescript-eslint/restrict-template-expressions */
+import { FilterQuery } from 'mongoose';
+import { StatusEnums } from '@enums/status.enums';
+import { AppError } from '@utils/apperror';
+import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
+import logger from '@utils/logger';
+import { IRoleRepository } from '@roles/interfaces/role.repository.interface';
+import { RoleRepository } from '@roles/repositories/role.repository';
+import { Role } from '@roles/models/role.model';
+import { PermissionEnums } from '@enums/permissions.enum';
+
+const roleRepository: IRoleRepository = new RoleRepository();
+
+export async function getRoleById(id: string): Promise<Role | null> {
+  try {
+    return await roleRepository.getRoleById(id);
+  } catch (error) {
+    logger.error({ body: { id } }, `Error in get role by id service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function createRole(body: {
+  title: string;
+  rights: PermissionEnums[];
+}): Promise<Role> {
+  try {
+    const existingRole: Role | null = await roleRepository.getRoleByTitle(body.title);
+    if (existingRole) {
+      throw new AppError('Role with email already exists', 409);
+    }
+    return await roleRepository.create(body);
+  } catch (error) {
+    logger.error({ body: body }, `Error in create role service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function getRoles(filterQuery: FilterQuery<Role> = {}): Promise<Role[]> {
+  try {
+    return await roleRepository.getRoles(filterQuery);
+  } catch (error) {
+    logger.error({ body: filterQuery }, `Error in get roles service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function getPaginatedRole(
+  page: string = '1',
+  limit: string = '10',
+  filterQuery: FilterQuery<Role> = {},
+): Promise<{ roles: Role[]; meta: PaginationMetaType }> {
+  try {
+    const pageInt: number = parseInt(page, 10);
+    const limitInt: number = parseInt(limit, 10);
+    const [roles, totalCount] = await Promise.all([
+      roleRepository.getPaginatedRoles(pageInt, limitInt, filterQuery),
+      roleRepository.countDocuments(filterQuery),
+    ]);
+    const totalPages = Math.ceil(totalCount / limitInt);
+    const hasNext: boolean = pageInt < totalPages;
+    return {
+      roles,
+      meta: {
+        currentPage: pageInt,
+        hasNext,
+        pageSize: limitInt,
+        totalCount,
+        totalPages,
+      },
+    };
+  } catch (error) {
+    logger.error(
+      { body: { page, limit, ...filterQuery } },
+      `Error in get paginated roles:  =>  ${error}`,
+    );
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function getRole(filterQuery: FilterQuery<Role> = {}): Promise<Role | null> {
+  try {
+    const existingRole = await roleRepository.getSingleRole(filterQuery);
+    if (!existingRole) {
+      throw new AppError('Role not found', 404);
+    }
+    return existingRole;
+  } catch (error) {
+    logger.error({ body: filterQuery }, `Error in get role service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function updateRole(
+  id: string,
+  body: { title?: string; rights?: PermissionEnums[]; status?: StatusEnums },
+): Promise<Role | null> {
+  try {
+    return await roleRepository.updateRoleById(id, body);
+  } catch (error) {
+    logger.error({ body: { id, ...body } }, `Error in update role service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function deleteRole(id: string): Promise<Role | null> {
+  try {
+    return await roleRepository.updateRoleById(id, { status: StatusEnums.DELETED });
+  } catch (error) {
+    logger.error({ body: { id } }, `Error in delete role service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}

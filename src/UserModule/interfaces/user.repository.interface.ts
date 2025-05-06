@@ -13,6 +13,8 @@ import { DeleteOptions, UpdateOptions } from 'mongodb';
 
 export abstract class IUserRepository {
   abstract create(data: Partial<User>): Promise<User>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract insertMany(data: Partial<User>[]): Promise<any>;
   abstract findAll(
     filterQuery: FilterQuery<User>,
     queryOptions: QueryOptions<User>,
