@@ -20,6 +20,15 @@ export async function getRoleById(id: string): Promise<Role | null> {
   }
 }
 
+export async function getRoleByIds(ids: string[]): Promise<Role[]> {
+  try {
+    return await roleRepository.getRoleByIds(ids);
+  } catch (error) {
+    logger.error({ body: { ids } }, `Error in get role by ids service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
 export async function createRole(body: {
   title: string;
   rights: PermissionEnums[];

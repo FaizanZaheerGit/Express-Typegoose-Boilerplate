@@ -8,6 +8,7 @@ import { AppError } from '@utils/apperror';
 import { IUserRepository } from '@user/interfaces/user.repository.interface';
 import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
 import logger from '@utils/logger';
+import * as roleService from '@roles/services/role.service';
 
 const userRepository: IUserRepository = new UserRepository();
 
@@ -43,8 +44,19 @@ export async function createUser(body: {
   password: string;
   name?: string;
   phoneNumber?: string;
+  roleIds?: string[];
 }): Promise<User> {
   try {
+    if (body?.roleIds && body?.roleIds.length) {
+      const existingRoles = await roleService.getRoleByIds(body?.roleIds);
+      if (!existingRoles || !existingRoles.length || existingRoles.length < body?.roleIds.length) {
+        throw new AppError(`Role not found`, 400);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        body['roles'] = existingRoles;
+      }
+    }
     const existingUser: User | null = await userRepository.getUserByEmail(body.email);
     if (existingUser) {
       throw new AppError('User with email already exists', 409);

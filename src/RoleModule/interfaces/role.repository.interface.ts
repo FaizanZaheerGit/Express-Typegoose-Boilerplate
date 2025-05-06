@@ -56,6 +56,7 @@ export abstract class IRoleRepository {
   abstract getRoleByTitle(title: string): Promise<Role | null>;
   abstract getRolesByRights(rights: PermissionEnums[]): Promise<Role[] | null>;
   abstract getRoleById(id: string): Promise<Role | null>;
+  abstract getRoleByIds(ids: string[]): Promise<Role[]>;
   abstract getPaginatedRoles(
     page: number,
     limit: number,

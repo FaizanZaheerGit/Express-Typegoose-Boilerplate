@@ -1,4 +1,5 @@
 import {
+  arrayOfRoleIdsValidation,
   emailValidation,
   limitValidation,
   mongoIdValidation,
@@ -18,8 +19,9 @@ export const createUserSchema = z
     password: strongPasswordValidation,
     name: nameValidation,
     phoneNumber: phoneNumberValidation,
+    roles: arrayOfRoleIdsValidation,
   })
-  .strict('Remove any extra keys other than [email, password, name, phoneNumber]');
+  .strict('Remove any extra keys other than [email, password, name, phoneNumber, roles]');
 
 export const getUsersSchema = z
   .object({

@@ -94,3 +94,7 @@ export const optionalRightsValidation = z
     { invalid_type_error: 'rights must be an array' },
   )
   .optional();
+
+export const arrayOfRoleIdsValidation = z
+  .array(mongoIdValidation.optional(), { invalid_type_error: 'roles must be an array' })
+  .optional();
