@@ -45,6 +45,8 @@ export async function createUser(body: {
   name?: string;
   phoneNumber?: string;
   roleIds?: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  roles?: any[];
 }): Promise<User> {
   try {
     if (body?.roleIds && body?.roleIds.length) {
@@ -52,8 +54,6 @@ export async function createUser(body: {
       if (!existingRoles || !existingRoles.length || existingRoles.length < body?.roleIds.length) {
         throw new AppError(`Role not found`, 400);
       } else {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         body['roles'] = existingRoles;
       }
     }
