@@ -105,6 +105,10 @@ export async function updateRole(
   body: { title?: string; rights?: PermissionEnums[]; status?: StatusEnums },
 ): Promise<Role | null> {
   try {
+    const existingRole = await roleRepository.getRoleById(id);
+    if (!existingRole) {
+      throw new AppError(`Role not found!`, 400);
+    }
     return await roleRepository.updateRoleById(id, body);
   } catch (error) {
     logger.error({ body: { id, ...body } }, `Error in update role service:  =>  ${error}`);
@@ -114,6 +118,10 @@ export async function updateRole(
 
 export async function deleteRole(id: string): Promise<Role | null> {
   try {
+    const existingRole = await roleRepository.getRoleById(id);
+    if (!existingRole) {
+      throw new AppError(`Role not found!`, 400);
+    }
     return await roleRepository.updateRoleById(id, { status: StatusEnums.DELETED });
   } catch (error) {
     logger.error({ body: { id } }, `Error in delete role service:  =>  ${error}`);

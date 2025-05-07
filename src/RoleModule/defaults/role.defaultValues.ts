@@ -9,7 +9,6 @@ export const roleDefaultValues: Role[] = [
       PermissionEnums.READ_USERS,
       PermissionEnums.EDIT_USERS,
       PermissionEnums.DELETE_USERS,
-      PermissionEnums.INVITE_USERS,
       PermissionEnums.CREATE_ROLES,
       PermissionEnums.EDIT_ROLES,
       PermissionEnums.READ_ROLES,
@@ -23,7 +22,6 @@ export const roleDefaultValues: Role[] = [
       PermissionEnums.READ_USERS,
       PermissionEnums.EDIT_USERS,
       PermissionEnums.DELETE_USERS,
-      PermissionEnums.INVITE_USERS,
     ],
   },
   {

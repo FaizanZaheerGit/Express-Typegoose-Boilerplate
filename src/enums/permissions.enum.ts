@@ -4,7 +4,6 @@ export enum PermissionEnums {
   READ_USERS = 'read-users',
   EDIT_USERS = 'edit-users',
   DELETE_USERS = 'delete-users',
-  INVITE_USERS = 'invite-users',
 
   // Role Module
   CREATE_ROLES = 'create-roles',

@@ -1,6 +1,5 @@
 import { BaseRespository } from '@database/repositories/base.repository';
 import { PermissionEnums } from '@enums/permissions.enum';
-import { StatusEnums } from '@enums/status.enums';
 import { IRoleRepository } from '@roles/interfaces/role.repository.interface';
 import { Role, RoleModel } from '@roles/models/role.model';
 import { FilterQuery, Types } from 'mongoose';
@@ -41,7 +40,6 @@ export class RoleRepository extends BaseRespository<Role> implements IRoleReposi
   async getRoleByIds(ids: string[]): Promise<Role[]> {
     return await this.findAll({
       _id: { $in: ids.map((id) => new Types.ObjectId(id)) },
-      status: StatusEnums.ACTIVE,
     });
   }
 
