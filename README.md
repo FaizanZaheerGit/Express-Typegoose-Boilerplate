@@ -28,4 +28,4 @@ For running this example run cmd on cli, npm | pnpm run start,
 
 For running in development watch mode, run cmd on cli, npm | pnpm run start:dev
 
-Before running docker build or docker-compose up , make sure to run pnpm i to generate a pnpm-lock.yaml file
+<!-- Before running docker build or docker-compose up , make sure to run pnpm i to generate a pnpm-lock.yaml file -->
