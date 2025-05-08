@@ -29,6 +29,11 @@ export const strongPasswordValidation = z
   .regex(/\d/, 'Password must contain at least one number')
   .regex(/[@$!%*?&#]/, 'Password must contain at least one special character');
 
+export const oldPasswordValidation = z.string({
+  required_error: 'old password is required',
+  invalid_type_error: 'old password must be a string',
+});
+
 export const uuidValidation = z
   .string({ required_error: 'token is required', invalid_type_error: 'token must be a string' })
   .uuid({ message: 'token must be valid UUID' });

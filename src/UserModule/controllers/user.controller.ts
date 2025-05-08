@@ -73,3 +73,12 @@ export async function deleteUser(req: Request, res: Response, next: NextFunction
     next(error);
   }
 }
+
+export async function changePassword(req: Request, res: Response, next: NextFunction) {
+  try {
+    await userService.changePassword(req.body, req.user);
+    return sendResponse(res, 200, true, {}, 'SUCCESS');
+  } catch (error) {
+    next(error);
+  }
+}

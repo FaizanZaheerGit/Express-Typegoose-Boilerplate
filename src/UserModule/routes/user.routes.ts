@@ -3,6 +3,7 @@ import { authenticate } from '@middlewares/authentication.middleware';
 import * as userController from '@user/controllers/user.controller';
 import { validate } from '@middlewares/validate.middleware';
 import {
+  changePasswordSchema,
   createUserSchema,
   getPaginatedUsersSchema,
   getUsersSchema,
@@ -82,6 +83,12 @@ userRouter.delete(
   rbacGuard([PermissionEnums.DELETE_USERS]),
   [authenticate, validate({ params: idParamSchema })],
   userController.deleteUser,
+);
+
+userRouter.patch(
+  '/change-password',
+  [authenticate, validate({ body: changePasswordSchema })],
+  userController.changePassword,
 );
 
 export default userRouter;

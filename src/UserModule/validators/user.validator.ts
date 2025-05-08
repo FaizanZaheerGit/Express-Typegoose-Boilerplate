@@ -4,6 +4,7 @@ import {
   limitValidation,
   mongoIdValidation,
   nameValidation,
+  oldPasswordValidation,
   optionalEmailValidation,
   pageValidation,
   phoneNumberValidation,
@@ -52,4 +53,10 @@ export const updateUserSchema = z
 
 export const idParamSchema = z.object({
   id: mongoIdValidation,
+});
+
+export const changePasswordSchema = z.object({
+  id: mongoIdValidation,
+  oldPassword: oldPasswordValidation,
+  newPassword: strongPasswordValidation,
 });

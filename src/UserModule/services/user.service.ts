@@ -9,6 +9,7 @@ import { IUserRepository } from '@user/interfaces/user.repository.interface';
 import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
 import logger from '@utils/logger';
 import * as roleService from '@roles/services/role.service';
+import { comparePassword, generateHash } from '@utils/bcrypt';
 
 const userRepository: IUserRepository = new UserRepository();
 
@@ -140,6 +141,37 @@ export async function deleteUser(id: string): Promise<User | null> {
     return await userRepository.updateUserById(id, { status: StatusEnums.DELETED });
   } catch (error) {
     logger.error({ body: { id } }, `Error in delete user service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function changePassword(
+  body: {
+    id: string;
+    oldPassword: string;
+    newPassword: string;
+  },
+  currentUser: User,
+): Promise<User | null> {
+  try {
+    const existingUser = await userRepository.getUserById(body.id);
+    if (!existingUser) {
+      throw new AppError(`User does not exist!`, 400);
+    }
+    if (!currentUser || body.id !== String(currentUser['_id'])) {
+      throw new AppError(`Unauthorized Access!`, 401);
+    }
+    const validatePassword: boolean = await comparePassword(
+      body.oldPassword,
+      existingUser?.password || '',
+    );
+    if (!validatePassword) {
+      throw new AppError('Old password does not match!', 400);
+    }
+    const newPasswordHash: string = await generateHash(body.newPassword);
+    return await userRepository.updateUserById(body.id, { password: newPasswordHash });
+  } catch (error) {
+    logger.error({ body }, `Error in change password service:  =>  ${error}`);
     throw new AppError('' + error, 400);
   }
 }
