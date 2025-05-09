@@ -2,10 +2,12 @@
 import passport from 'passport';
 import { Request, Response, NextFunction } from 'express';
 import { sendResponse } from '@utils/response';
+import logger from '@utils/logger';
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authGuard = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', { session: false }, (err: any, user: any, info: any) => {
     if (err || !user) {
+      logger.error({}, `Unauthorized Access from Auth Guard on PATH:  ${req.path}`);
       return sendResponse(res, 401, false, {}, 'Unauthorized', null, [
         info?.message || 'Authentication failed',
       ]);

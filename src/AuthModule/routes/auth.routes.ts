@@ -8,7 +8,7 @@ import {
   sendOtpSchema,
   verifyOtpSchema,
 } from '@auth/validators/auth.validator';
-import { authenticate } from '@middlewares/authentication.middleware';
+import { authGuard } from '@middlewares/authentication.middleware';
 import { rbacGuard } from '@middlewares/rbac.middleware';
 import { PermissionEnums } from '@enums/permissions.enum';
 
@@ -16,7 +16,7 @@ const authRouter: Router = Router();
 
 authRouter.post('/login', validate({ body: loginSchema }), authController.login);
 
-authRouter.get('/logout', authenticate, authController.logout);
+authRouter.get('/logout', authGuard, authController.logout);
 
 authRouter.post(
   '/forgot-password',
@@ -32,7 +32,7 @@ authRouter.patch(
 
 authRouter.post(
   '/send-otp',
-  [authenticate, rbacGuard([PermissionEnums.CREATE_USERS]), validate({ body: sendOtpSchema })],
+  [authGuard, rbacGuard([PermissionEnums.CREATE_USERS]), validate({ body: sendOtpSchema })],
   authController.sendOtp,
 );
 

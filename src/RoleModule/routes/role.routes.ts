@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate } from '@middlewares/authentication.middleware';
+import { authGuard } from '@middlewares/authentication.middleware';
 import { validate } from '@middlewares/validate.middleware';
 import {
   createRoleSchema,
@@ -16,14 +16,14 @@ const roleRouter: Router = Router();
 
 roleRouter.post(
   '/',
-  [authenticate, rbacGuard([PermissionEnums.CREATE_ROLES]), validate({ body: createRoleSchema })],
+  [authGuard, rbacGuard([PermissionEnums.CREATE_ROLES]), validate({ body: createRoleSchema })],
   roleController.createRole,
 );
 
 roleRouter.get(
   '/',
   [
-    authenticate,
+    authGuard,
     rbacGuard([
       PermissionEnums.CREATE_ROLES,
       PermissionEnums.READ_ROLES,
@@ -38,7 +38,7 @@ roleRouter.get(
 roleRouter.get(
   '/paginated',
   [
-    authenticate,
+    authGuard,
     rbacGuard([
       PermissionEnums.CREATE_ROLES,
       PermissionEnums.READ_ROLES,
@@ -53,7 +53,7 @@ roleRouter.get(
 roleRouter.get(
   '/:id',
   [
-    authenticate,
+    authGuard,
     rbacGuard([
       PermissionEnums.CREATE_ROLES,
       PermissionEnums.READ_ROLES,
@@ -68,7 +68,7 @@ roleRouter.get(
 roleRouter.put(
   '/:id',
   [
-    authenticate,
+    authGuard,
     rbacGuard([PermissionEnums.EDIT_ROLES]),
     validate({ params: idParamSchema, body: updateRoleSchema }),
   ],
@@ -77,7 +77,7 @@ roleRouter.put(
 
 roleRouter.delete(
   '/:id',
-  [authenticate, rbacGuard([PermissionEnums.DELETE_ROLES]), validate({ params: idParamSchema })],
+  [authGuard, rbacGuard([PermissionEnums.DELETE_ROLES]), validate({ params: idParamSchema })],
   roleController.deleteRole,
 );
 

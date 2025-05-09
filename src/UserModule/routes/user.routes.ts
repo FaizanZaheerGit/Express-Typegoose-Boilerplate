@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate } from '@middlewares/authentication.middleware';
+import { authGuard } from '@middlewares/authentication.middleware';
 import * as userController from '@user/controllers/user.controller';
 import { validate } from '@middlewares/validate.middleware';
 import {
@@ -17,14 +17,14 @@ const userRouter: Router = Router();
 
 userRouter.post(
   '/',
-  [authenticate, rbacGuard([PermissionEnums.CREATE_USERS]), validate({ body: createUserSchema })],
+  [authGuard, rbacGuard([PermissionEnums.CREATE_USERS]), validate({ body: createUserSchema })],
   userController.createUser,
 );
 
 userRouter.get(
   '/',
   [
-    authenticate,
+    authGuard,
     rbacGuard([
       PermissionEnums.CREATE_USERS,
       PermissionEnums.READ_USERS,
@@ -39,7 +39,7 @@ userRouter.get(
 userRouter.get(
   '/paginated',
   [
-    authenticate,
+    authGuard,
     rbacGuard([
       PermissionEnums.CREATE_USERS,
       PermissionEnums.READ_USERS,
@@ -51,12 +51,12 @@ userRouter.get(
   userController.readPaginatedUsers,
 );
 
-userRouter.get('/me', authenticate, userController.readCurrentUserDetails);
+userRouter.get('/me', authGuard, userController.readCurrentUserDetails);
 
 userRouter.get(
   '/:id',
   [
-    authenticate,
+    authGuard,
     rbacGuard([
       PermissionEnums.CREATE_USERS,
       PermissionEnums.READ_USERS,
@@ -71,7 +71,7 @@ userRouter.get(
 userRouter.put(
   '/:id',
   [
-    authenticate,
+    authGuard,
     rbacGuard([PermissionEnums.EDIT_USERS]),
     validate({ params: idParamSchema, body: updateUserSchema }),
   ],
@@ -81,13 +81,13 @@ userRouter.put(
 userRouter.delete(
   '/:id',
   rbacGuard([PermissionEnums.DELETE_USERS]),
-  [authenticate, validate({ params: idParamSchema })],
+  [authGuard, validate({ params: idParamSchema })],
   userController.deleteUser,
 );
 
 userRouter.patch(
   '/change-password',
-  [authenticate, validate({ body: changePasswordSchema })],
+  [authGuard, validate({ body: changePasswordSchema })],
   userController.changePassword,
 );
 
