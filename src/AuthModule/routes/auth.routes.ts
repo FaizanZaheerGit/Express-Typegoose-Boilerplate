@@ -38,4 +38,7 @@ authRouter.post(
 
 authRouter.patch('/verify-otp', validate({ body: verifyOtpSchema }), authController.verifyOtp);
 
+// TODO: Remove extra encryption layer, and work on accessToken and refreshToken functionality
+// authRouter.get('/refresh-token')
+
 export default authRouter;

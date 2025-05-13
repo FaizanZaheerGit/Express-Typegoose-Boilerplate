@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands, @typescript-eslint/restrict-template-expressions */
+// TODO: Remove extra encryption layer, and work on accessToken and refreshToken functionality
+
 import { frontEndUrl } from '@config/index';
 import { StatusEnums } from '@enums/status.enums';
 import { User } from '@user/models/user.model';

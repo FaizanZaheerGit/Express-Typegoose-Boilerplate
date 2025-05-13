@@ -1,3 +1,5 @@
+// TODO: Remove extra encryption layer, and work on accessToken and refreshToken functionality
+
 import { jwtSecret } from '@config/index';
 import { Request } from 'express';
 import passport from 'passport';
