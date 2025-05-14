@@ -45,6 +45,15 @@ export const getPaginatedUsersSchema = z
 export const updateUserSchema = z
   .object({
     name: nameValidation,
+    // userType: userTypeValidation,
+    // status: statusValidation,
+    phoneNumber: phoneNumberValidation,
+  })
+  .strict('Remove any extra keys other than [name, phoneNumber]');
+
+export const updateUserAdminSchema = z
+  .object({
+    name: nameValidation,
     userType: userTypeValidation,
     status: statusValidation,
     phoneNumber: phoneNumberValidation,

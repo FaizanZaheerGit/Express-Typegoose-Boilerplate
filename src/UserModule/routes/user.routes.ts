@@ -8,10 +8,12 @@ import {
   getPaginatedUsersSchema,
   getUsersSchema,
   idParamSchema,
+  updateUserAdminSchema,
   updateUserSchema,
 } from '@user/validators/user.validator';
 import { rbacGuard } from '@middlewares/rbac.middleware';
 import { PermissionEnums } from '@enums/permissions.enum';
+import { onlyAdminGuard } from '@middlewares/admin.middleware';
 
 const userRouter: Router = Router();
 
@@ -75,6 +77,12 @@ userRouter.put(
     rbacGuard([PermissionEnums.EDIT_USERS]),
     validate({ params: idParamSchema, body: updateUserSchema }),
   ],
+  userController.updateUser,
+);
+
+userRouter.put(
+  '/admin/:id',
+  [authGuard, onlyAdminGuard, validate({ params: idParamSchema, body: updateUserAdminSchema })],
   userController.updateUser,
 );
 
