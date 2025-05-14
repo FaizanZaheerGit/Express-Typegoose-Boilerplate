@@ -1,9 +1,10 @@
+import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 import { PermissionEnums } from '@enums/permissions.enum';
 import { Role } from '@roles/models/role.model';
 
 export const roleDefaultValues: Role[] = [
   {
-    title: 'Administrator',
+    title: DefaultRoleEnums.ADMINISTRATOR,
     rights: [
       PermissionEnums.CREATE_USERS,
       PermissionEnums.READ_USERS,
@@ -16,7 +17,7 @@ export const roleDefaultValues: Role[] = [
     ],
   },
   {
-    title: 'User Manager',
+    title: DefaultRoleEnums.USER_MANAGER,
     rights: [
       PermissionEnums.CREATE_USERS,
       PermissionEnums.READ_USERS,
@@ -25,7 +26,7 @@ export const roleDefaultValues: Role[] = [
     ],
   },
   {
-    title: 'Role Manager',
+    title: DefaultRoleEnums.ROLE_MANAGER,
     rights: [
       PermissionEnums.CREATE_ROLES,
       PermissionEnums.READ_ROLES,

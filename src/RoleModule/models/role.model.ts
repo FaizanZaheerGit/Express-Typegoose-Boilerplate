@@ -5,7 +5,7 @@ import { BaseClass } from '@database/models/base.model';
   schemaOptions: { timestamps: true, versionKey: false },
 })
 export class Role extends BaseClass {
-  @prop({ type: String, required: true, index: true })
+  @prop({ type: String, required: true, index: true, unique: true })
   title!: string;
 
   @prop({ type: [String], default: [] })

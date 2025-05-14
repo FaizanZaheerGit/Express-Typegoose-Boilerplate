@@ -8,6 +8,7 @@ import { IRoleRepository } from '@roles/interfaces/role.repository.interface';
 import { RoleRepository } from '@roles/repositories/role.repository';
 import { Role } from '@roles/models/role.model';
 import { PermissionEnums } from '@enums/permissions.enum';
+import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 
 const roleRepository: IRoleRepository = new RoleRepository();
 
@@ -36,7 +37,7 @@ export async function createRole(body: {
   try {
     const existingRole: Role | null = await roleRepository.getRoleByTitle(body.title);
     if (existingRole) {
-      throw new AppError('Role with email already exists', 409);
+      throw new AppError('Role with title already exists', 409);
     }
     return await roleRepository.create(body);
   } catch (error) {
@@ -109,6 +110,16 @@ export async function updateRole(
     if (!existingRole) {
       throw new AppError(`Role not found!`, 400);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-explicit-any
+    if (Object.values(DefaultRoleEnums).includes(existingRole.title as any)) {
+      throw new AppError(`Cannot update pre-defined roles`, 400);
+    }
+    if (body?.title) {
+      const existingRoleByTitle = await roleRepository.getRoleByTitle(body.title);
+      if (existingRoleByTitle) {
+        throw new AppError(`Role with title already exists!`, 409);
+      }
+    }
     return await roleRepository.updateRoleById(id, body);
   } catch (error) {
     logger.error({ body: { id, ...body } }, `Error in update role service:  =>  ${error}`);
@@ -121,6 +132,10 @@ export async function deleteRole(id: string): Promise<Role | null> {
     const existingRole = await roleRepository.getRoleById(id);
     if (!existingRole) {
       throw new AppError(`Role not found!`, 400);
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-explicit-any
+    if (Object.values(DefaultRoleEnums).includes(existingRole.title as any)) {
+      throw new AppError(`Cannot delete pre-defined roles`, 400);
     }
     return await roleRepository.updateRoleById(id, { status: StatusEnums.DELETED });
   } catch (error) {
