@@ -60,8 +60,25 @@
     "format": "prettier --write 'src/**/*.{ts,js,json,md}'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "node",
+    "js",
+    "ts",
+    "typescript",
+    "node js",
+    "node-ts",
+    "boilerplate",
+    "mongoose",
+    "typegoose",
+    "express",
+    "express js",
+    "express-ts"
+  ],
   "author": "Faizan Zaheer",
-  "license": "ISC",
-  "description": ""
+  "license": "MIT",
+  "description": "Boilerplate for Express Typescript with Typegoose",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FaizanZaheerGit/Express-Typegoose-Boilerplate.git"
+  }
 }
