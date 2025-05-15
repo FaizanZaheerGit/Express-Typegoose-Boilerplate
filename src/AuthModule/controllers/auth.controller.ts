@@ -12,7 +12,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export function logout(req: Request, res: Response, next: NextFunction) {
+export function logout(_req: Request, res: Response, next: NextFunction) {
   try {
     return sendResponse(res, 200, true, {}, 'SUCCESS');
   } catch (error) {

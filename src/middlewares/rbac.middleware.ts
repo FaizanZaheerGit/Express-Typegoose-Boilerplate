@@ -7,7 +7,7 @@ import { Role } from '@roles/models/role.model';
 import logger from '@utils/logger';
 
 export const rbacGuard = (allowedPermissions: PermissionEnums[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
     try {
       const currentUser = req?.user;
       if (currentUser?.userType == UserTypeEnum.ADMIN) {

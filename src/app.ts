@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-floating-promises */
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -19,7 +19,6 @@ import roleRouter from '@roles/routes/role.routes';
 import { createInitialRoles } from '@roles/seeders/role.seed';
 import rateLimit from 'express-rate-limit';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // NOTE: how long request should be remembered, currently set to 15 minutes
   limit: 100, // NOTE: Limit each IP to a specfic number of requests per windowMs, currently set to 100 requests
@@ -42,11 +41,11 @@ app.get('/healthCheck', (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-void mongoDbConnection(); // NOTE: void added to remove typescript floating promise error
-void createInitialUser(); // NOTE: void added to remove typescript floating promise error
-void createInitialRoles(); // NOTE: void added to remove typescript floating promise error
+mongoDbConnection();
+createInitialUser();
+createInitialRoles();
 
-app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/auth', limiter, authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/roles', roleRouter);
 
