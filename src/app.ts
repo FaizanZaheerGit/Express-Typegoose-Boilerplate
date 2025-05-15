@@ -17,6 +17,16 @@ import '@auth/eventemitters/subscriber/auth.subscriber'; // NOTE: This is for in
 import logger from '@utils/logger';
 import roleRouter from '@roles/routes/role.routes';
 import { createInitialRoles } from '@roles/seeders/role.seed';
+import rateLimit from 'express-rate-limit';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // NOTE: how long request should be remembered, currently set to 15 minutes
+  limit: 100, // NOTE: Limit each IP to a specfic number of requests per windowMs, currently set to 100 requests
+  headers: true, // NOTE: boolean to specify whether X-Rate-Limit header is to be sent
+  statusCode: 429, // NOTE: In case of too many requests what status code to send, by default its 429
+  message: 'Too many requests, please try again later', // NOTE: Optional message string to show if too many requests made
+});
 
 const app: Express = express();
 
@@ -43,7 +53,7 @@ app.use('/api/v1/roles', roleRouter);
 app.use(passport.initialize());
 app.use(globalErrorHandler);
 
-if (nodeEnv !== 'production') {
+if (nodeEnv.toLowerCase() !== 'production') {
   const specs = YAML.load('./swagger.yaml');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
