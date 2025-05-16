@@ -45,7 +45,7 @@ mongoDbConnection();
 createInitialUser();
 createInitialRoles();
 
-app.use('/api/v1/auth', limiter, authRouter);
+app.use('/api/v1/auth', limiter, authRouter); // NOTE: Only added rate limiting in un-authenticated routes right now
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/roles', roleRouter);
 

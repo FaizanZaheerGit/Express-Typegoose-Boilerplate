@@ -1,3 +1,4 @@
+# TODO: Add Other routes here, currently only Create user has been added
 openapi: 3.0.0
 info:
   title: Express Typegoose Boierplate APIs
