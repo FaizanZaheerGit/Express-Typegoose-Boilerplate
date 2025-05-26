@@ -12,15 +12,6 @@ import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 
 const roleRepository: IRoleRepository = new RoleRepository();
 
-export async function getRoleById(id: string): Promise<Role | null> {
-  try {
-    return await roleRepository.getRoleById(id);
-  } catch (error) {
-    logger.error({ body: { id } }, `Error in get role by id service:  =>  ${error}`);
-    throw new AppError('' + error, 400);
-  }
-}
-
 export async function getRoleByIds(ids: string[]): Promise<Role[]> {
   try {
     return await roleRepository.getRoleByIds(ids);
