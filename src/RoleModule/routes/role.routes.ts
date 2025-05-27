@@ -20,6 +20,7 @@ roleRouter.post(
   roleController.createRole,
 );
 
+// TODO: implement cursor based pagination for all data reads for optimizations
 roleRouter.get(
   '/',
   [

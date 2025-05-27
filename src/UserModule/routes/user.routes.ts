@@ -23,6 +23,7 @@ userRouter.post(
   userController.createUser,
 );
 
+// TODO: implement cursor based pagination for all data reads for optimizations
 userRouter.get(
   '/',
   [
