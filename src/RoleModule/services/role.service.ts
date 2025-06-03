@@ -51,7 +51,7 @@ export async function getCursorBasedRoles(filterQuery: FilterQuery<Role> = {}): 
     // TODO: work on this
     return await roleRepository.getRoles(filterQuery);
   } catch (error) {
-    logger.error({ body: filterQuery }, `Error in get roles service:  =>  ${error}`);
+    logger.error({ body: filterQuery }, `Error in get cursor based roles service:  =>  ${error}`);
     throw new AppError('' + error, 400);
   }
 }

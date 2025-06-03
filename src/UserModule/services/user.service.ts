@@ -69,11 +69,21 @@ export async function createUser(body: {
   }
 }
 
-export async function getUsers(filterQuery: FilterQuery<User> = {}): Promise<User[]> {
+export async function getAllUsers(filterQuery: FilterQuery<User> = {}): Promise<User[]> {
   try {
     return await userRepository.getUsers(filterQuery);
   } catch (error) {
     logger.error({ body: filterQuery }, `Error in get users service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function getCursorBasedUsers(filterQuery: FilterQuery<User> = {}): Promise<User[]> {
+  try {
+    // TODO: work on this
+    return await userRepository.getUsers(filterQuery);
+  } catch (error) {
+    logger.error({ body: filterQuery }, `Error in get cursor based users service:  =>  ${error}`);
     throw new AppError('' + error, 400);
   }
 }

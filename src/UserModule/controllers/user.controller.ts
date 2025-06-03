@@ -14,7 +14,7 @@ export async function createUser(req: Request, res: Response, next: NextFunction
 
 export async function readUsers(req: Request, res: Response, next: NextFunction) {
   try {
-    const users = await userService.getUsers(req.query);
+    const users = await userService.getCursorBasedUsers(req.query);
     return sendResponse(res, 200, true, { entities: users }, 'SUCCESS');
   } catch (error) {
     next(error);
