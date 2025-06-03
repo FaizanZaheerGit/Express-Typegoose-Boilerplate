@@ -37,8 +37,18 @@ export async function createRole(body: {
   }
 }
 
-export async function getRoles(filterQuery: FilterQuery<Role> = {}): Promise<Role[]> {
+export async function getAllRoles(filterQuery: FilterQuery<Role> = {}): Promise<Role[]> {
   try {
+    return await roleRepository.getRoles(filterQuery);
+  } catch (error) {
+    logger.error({ body: filterQuery }, `Error in get roles service:  =>  ${error}`);
+    throw new AppError('' + error, 400);
+  }
+}
+
+export async function getCursorBasedRoles(filterQuery: FilterQuery<Role> = {}): Promise<Role[]> {
+  try {
+    // TODO: work on this
     return await roleRepository.getRoles(filterQuery);
   } catch (error) {
     logger.error({ body: filterQuery }, `Error in get roles service:  =>  ${error}`);
