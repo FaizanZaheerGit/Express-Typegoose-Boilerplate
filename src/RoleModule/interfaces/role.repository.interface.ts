@@ -65,7 +65,8 @@ export abstract class IRoleRepository {
   abstract getRoles(filterQuery: FilterQuery<Role>): Promise<Role[]>;
   abstract getCursorBasedRoles(
     filterQuery: FilterQuery<Role>,
-    cursor: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cursor: any,
     limit: number,
   ): Promise<Role[]>;
   abstract getSingleRole(filterQuery: FilterQuery<Role>): Promise<Role | null>;
