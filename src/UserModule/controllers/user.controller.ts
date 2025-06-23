@@ -15,8 +15,12 @@ export async function createUser(req: Request, res: Response, next: NextFunction
 export async function readUsers(req: Request, res: Response, next: NextFunction) {
   try {
     const { cursor, limit, ...filterQuery } = req.query;
-    const users = await userService.getCursorBasedUsers(filterQuery, cursor, limit);
-    return sendResponse(res, 200, true, { entities: users }, 'SUCCESS');
+    const { users, hasNext, nextCursor } = await userService.getCursorBasedUsers(
+      filterQuery,
+      cursor,
+      limit,
+    );
+    return sendResponse(res, 200, true, { entities: users, hasNext, nextCursor }, 'SUCCESS');
   } catch (error) {
     next(error);
   }

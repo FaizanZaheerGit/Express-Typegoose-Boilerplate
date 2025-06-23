@@ -84,7 +84,7 @@ export async function getCursorBasedUsers(
   cursor: any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   limit: any,
-): Promise<{ users: User[], hasNext: boolean, nextCursor: unknown }> {
+): Promise<{ users: User[]; hasNext: boolean; nextCursor: unknown }> {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const limitInt = parseInt(limit, 10);

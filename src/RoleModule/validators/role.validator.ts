@@ -1,4 +1,5 @@
 import {
+  cursorIdValidation,
   limitValidation,
   mongoIdValidation,
   optionalRightsValidation,
@@ -21,8 +22,10 @@ export const getRolesSchema = z
   .object({
     title: optionalTitleValidation,
     status: statusValidation,
+    cursor: cursorIdValidation,
+    limit: limitValidation,
   })
-  .strict(`Remove any extra keys except [title, status]`);
+  .strict(`Remove any extra keys except [title, status, limit, cursor]`);
 
 export const getPaginatedRolesSchema = z
   .object({

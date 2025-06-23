@@ -46,10 +46,24 @@ export async function getAllRoles(filterQuery: FilterQuery<Role> = {}): Promise<
   }
 }
 
-export async function getCursorBasedRoles(filterQuery: FilterQuery<Role> = {}): Promise<Role[]> {
+export async function getCursorBasedRoles(
+  filterQuery: FilterQuery<Role> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cursor: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  limit: any,
+): Promise<{ roles: Role[]; hasNext: boolean; nextCursor: unknown }> {
   try {
-    // TODO: work on this
-    return await roleRepository.getRoles(filterQuery);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const limitInt = parseInt(limit, 10);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const roles = await roleRepository.getCursorBasedRoles(filterQuery, cursor, limitInt);
+    const hasNext = roles.length > limit;
+    if (hasNext) {
+      roles.pop();
+    }
+    const nextCursor = hasNext ? roles[roles.length - 1]._id : null;
+    return { roles, hasNext, nextCursor };
   } catch (error) {
     logger.error({ body: filterQuery }, `Error in get cursor based roles service:  =>  ${error}`);
     throw new AppError('' + error, 400);

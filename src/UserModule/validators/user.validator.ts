@@ -33,7 +33,7 @@ export const getUsersSchema = z
     cursor: cursorIdValidation, // NOTE: For cursor based read
     limit: limitValidation, // NOTE: For cursor based read
   })
-  .strict('Remove any extra keys other than [email, userType, status]');
+  .strict('Remove any extra keys other than [email, userType, status, limit, cursor]');
 
 export const getPaginatedUsersSchema = z
   .object({

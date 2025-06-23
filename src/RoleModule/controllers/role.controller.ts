@@ -14,8 +14,13 @@ export async function createRole(req: Request, res: Response, next: NextFunction
 
 export async function readRoles(req: Request, res: Response, next: NextFunction) {
   try {
-    const roles = await roleService.getCursorBasedRoles(req.query);
-    return sendResponse(res, 200, true, { entities: roles }, 'SUCCESS');
+    const { cursor, limit, ...filterQuery } = req.query;
+    const { roles, hasNext, nextCursor } = await roleService.getCursorBasedRoles(
+      filterQuery,
+      cursor,
+      limit,
+    );
+    return sendResponse(res, 200, true, { entities: roles, hasNext, nextCursor }, 'SUCCESS');
   } catch (error) {
     next(error);
   }
