@@ -42,6 +42,11 @@ export const mongoIdValidation = z
   .string({ required_error: 'id is required', invalid_type_error: 'id must be a string' })
   .regex(/^[0-9a-fA-F]{24}$/, { message: 'id must be a valid MongoDB ObjectId' });
 
+export const cursorIdValidation = z
+  .string({ invalid_type_error: 'id must be a string' })
+  .regex(/^[0-9a-fA-F]{24}$/, { message: 'id must be a valid MongoDB ObjectId' })
+  .optional();
+
 export const otpTokenValidation = z
   .string({
     required_error: '6-digit token is required',

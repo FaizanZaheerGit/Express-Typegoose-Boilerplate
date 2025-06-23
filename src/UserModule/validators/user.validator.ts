@@ -1,5 +1,6 @@
 import {
   arrayOfRoleIdsValidation,
+  cursorIdValidation,
   emailValidation,
   limitValidation,
   mongoIdValidation,
@@ -29,6 +30,8 @@ export const getUsersSchema = z
     email: optionalEmailValidation,
     userType: userTypeValidation,
     status: statusValidation,
+    cursor: cursorIdValidation, // NOTE: For cursor based read
+    limit: limitValidation, // NOTE: For cursor based read
   })
   .strict('Remove any extra keys other than [email, userType, status]');
 

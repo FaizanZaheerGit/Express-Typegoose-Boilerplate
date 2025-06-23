@@ -62,6 +62,12 @@ export abstract class IUserRepository {
     filterQuery: FilterQuery<User>,
   ): Promise<User[]>;
   abstract getUsers(filterQuery: FilterQuery<User>): Promise<User[]>;
+  abstract getCursorBasedUsers(
+    filterQuery: FilterQuery<User>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    cursor: any,
+    limit: number,
+  ): Promise<User[]>;
   abstract getSingleUser(filterQuery: FilterQuery<User>): Promise<User | null>;
   abstract updateUserById(id: string, updateQuery: Partial<User>): Promise<User | null>;
 }

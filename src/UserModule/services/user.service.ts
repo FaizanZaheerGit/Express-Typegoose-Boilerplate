@@ -78,10 +78,23 @@ export async function getAllUsers(filterQuery: FilterQuery<User> = {}): Promise<
   }
 }
 
-export async function getCursorBasedUsers(filterQuery: FilterQuery<User> = {}): Promise<User[]> {
+export async function getCursorBasedUsers(
+  filterQuery: FilterQuery<User> = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cursor: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  limit: any,
+): Promise<{ users: User[], hasNext: boolean, nextCursor: unknown }> {
   try {
-    // TODO: work on this
-    return await userRepository.getUsers(filterQuery);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const limitInt = parseInt(limit, 10);
+    const users = await userRepository.getCursorBasedUsers(filterQuery, cursor, limitInt);
+    const hasNext = users.length > limit;
+    if (hasNext) {
+      users.pop();
+    }
+    const nextCursor = hasNext ? users[users.length - 1]._id : null;
+    return { users, hasNext, nextCursor };
   } catch (error) {
     logger.error({ body: filterQuery }, `Error in get cursor based users service:  =>  ${error}`);
     throw new AppError('' + error, 400);
