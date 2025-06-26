@@ -42,7 +42,7 @@ app.get('/healthCheck', (req: Request, res: Response, next: NextFunction) => {
 });
 
 mongoDbConnection();
-createInitialUser();
+createInitialUser(); // TODO: call this function inside cli prompt solution, and remove from calling on app run
 createInitialRoles();
 
 app.use('/api/v1/auth', limiter, authRouter); // NOTE: Only added rate limiting in un-authenticated routes right now

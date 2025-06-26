@@ -6,6 +6,8 @@ import { UserRepository } from '@user/repositories/user.repository';
 import logger from '@utils/logger';
 const userRepository: IUserRepository = new UserRepository();
 
+// TODO: call this function inside cli prompt solution, and remove from calling on app run
+
 export const createInitialUser = async () => {
   try {
     const existingAdmin = await userRepository.getSingleActiveAdmin();
