@@ -58,7 +58,7 @@ export async function forgotPassword(body: { email: string }) {
     }
     const resetToken = uuidv4();
     await resetTokenRepository.create({ user: existingUser['_id'], token: resetToken });
-    const link: string = `${frontEndUrl}?id=${String(existingUser['_id'])}&token=${resetToken}`;
+    const link: string = `${frontEndUrl}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
     publishEmailEvent({
       recipients: [email],
       subject: EmailSubjects.FORGOT_PASSWORD,
