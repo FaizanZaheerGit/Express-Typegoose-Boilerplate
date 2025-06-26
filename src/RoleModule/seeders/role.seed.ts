@@ -6,6 +6,8 @@ import logger from '@utils/logger';
 
 const roleRepository: IRoleRepository = new RoleRepository();
 
+// TODO: call this function inside cli prompt solution, and remove from calling on app run
+
 export const createInitialRoles = async () => {
   try {
     const existingRole = await roleRepository.findOne({}, {});
