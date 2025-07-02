@@ -19,13 +19,12 @@ export class OtpTokenRepository extends BaseRespository<OtpToken> implements IOt
     return await this.findOne({ user, token });
   }
 
-  async updateTokenExpiryByUserIdAndToken(
+  async updateTokensExpiryByUserId(
     userId: string,
-    token: string,
     isExpired: boolean,
   ): Promise<OtpToken | null> {
     return await this.findOneAndUpdate(
-      { user: new Types.ObjectId(userId), token: token },
+      { user: new Types.ObjectId(userId) },
       { $set: { isExpired: isExpired } },
     );
   }

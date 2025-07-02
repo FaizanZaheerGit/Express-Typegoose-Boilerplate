@@ -55,9 +55,8 @@ export abstract class IOtpTokenRepository {
   abstract aggregate(stages: PipelineStage[], options?: AggregateOptions): Promise<Aggregate<any>>;
   abstract createToken(user: User, token: string): Promise<OtpToken>;
   abstract getByTokenAndUser(user: User, token: string): Promise<OtpToken | null>;
-  abstract updateTokenExpiryByUserIdAndToken(
+  abstract updateTokensExpiryByUserId(
     userId: string,
-    token: string,
     isExpired: boolean,
   ): Promise<OtpToken | null>;
 }

@@ -59,9 +59,8 @@ export abstract class IResetTokenRepository {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract createToken(user: any, token: string): Promise<ResetToken>;
   abstract getByTokenAndUser(user: User, token: string): Promise<ResetToken | null>;
-  abstract updateTokenExpiryByUserIdAndToken(
+  abstract updateTokensExpiryByUserId(
     userId: string,
-    token: string,
     isExpired: boolean,
   ): Promise<ResetToken | null>;
 }

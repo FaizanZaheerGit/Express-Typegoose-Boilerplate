@@ -86,9 +86,8 @@ export async function resetPassword(body: { id: string; newPassword: string; tok
     const hashedPassword = await generateHash(newPassword);
     await Promise.all([
       userService.updateUserPasswordById(id, hashedPassword),
-      resetTokenRepository.updateTokenExpiryByUserIdAndToken(
+      resetTokenRepository.updateTokensExpiryByUserId(
         String(existingUser['_id']),
-        token,
         true,
       ),
     ]);
@@ -107,7 +106,10 @@ export async function sendOtp(body: { id: string }) {
       throw new AppError('User does not exist', 404);
     }
     const otpToken = Math.floor(100000 + Math.random() * 900000).toString();
-    await otpTokenRepository.create({ user: existingUser['_id'], token: otpToken });
+    await Promise.all([
+      otpTokenRepository.updateTokensExpiryByUserId(id, true),
+      otpTokenRepository.create({ user: existingUser['_id'], token: otpToken }),
+    ]);
     publishEmailEvent({
       recipients: [existingUser?.email || ''],
       subject: EmailSubjects.SEND_OTP,
@@ -140,9 +142,8 @@ export async function verifyOtp(body: { id: string; token: string }) {
     }
     await Promise.all([
       userService.updateUser(id, { status: StatusEnums.ACTIVE }),
-      otpTokenRepository.updateTokenExpiryByUserIdAndToken(
+      otpTokenRepository.updateTokensExpiryByUserId(
         String(existingUser['_id']),
-        token,
         true,
       ),
     ]);
