@@ -56,6 +56,9 @@ export async function forgotPassword(body: { email: string }) {
     if (!existingUser) {
       throw new AppError('User does not exist', 404);
     }
+    if (existingUser?.status !== StatusEnums.ACTIVE) {
+      throw new AppError('This user is not active', 400);
+    }
     const resetToken = uuidv4();
     await resetTokenRepository.create({ user: existingUser['_id'], token: resetToken });
     const link: string = `${frontEndUrl}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
@@ -105,6 +108,9 @@ export async function sendOtp(body: { id: string }) {
     if (!existingUser) {
       throw new AppError('User does not exist', 404);
     }
+    if (existingUser?.status == StatusEnums.ACTIVE) {
+      throw new AppError('This user is already verified', 400);
+    }
     const otpToken = Math.floor(100000 + Math.random() * 900000).toString();
     await Promise.all([
       otpTokenRepository.updateTokensExpiryByUserId(id, true),
@@ -135,6 +141,9 @@ export async function verifyOtp(body: { id: string; token: string }) {
     const existingUser: User | null = await userService.getUserById(id);
     if (!existingUser) {
       throw new AppError('User does not exist', 404);
+    }
+    if (existingUser?.status == StatusEnums.ACTIVE) {
+      throw new AppError('This user is already verified', 400);
     }
     const existingOtp = await otpTokenRepository.getByTokenAndUser(existingUser, token);
     if (!existingOtp || existingOtp?.isExpired) {
