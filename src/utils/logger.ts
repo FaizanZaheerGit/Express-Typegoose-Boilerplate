@@ -1,23 +1,33 @@
 import pino, { Logger } from 'pino';
 import { nodeEnv } from '@config/index';
-import path from 'path';
 
-const logger: Logger = pino({
+const pinoConfig = nodeEnv.toLowerCase() === 'production' ? {
   name: 'customLogger',
+  level: 'info',
+  base: null,
   transport: {
-    ...(nodeEnv !== 'production' ? { target: 'pino-pretty' } : { target: 'pino/file' }),
-    options: {
-      ...(nodeEnv == 'production'
-        ? { destination: path.join(__dirname, '../logs/app.log'), mkdir: true, sync: false }
-        : {}),
-      colorize: true,
-      translateTime: 'HH:MM:ss Z',
-      ignore: 'pid,hostname',
-    },
-    level: nodeEnv == 'production' ? 'info' : 'debug',
+    target: 'pino/file',
+    destination: `logs/log-${new Date().toISOString().split('T')[0]}.log`,
+    mkdir: true,
   },
   timestamp: () => `,"timestamp": ${new Date().toISOString()}`,
-  messageKey: 'message',
-});
+  messageKey: 'message'
+} : {
+  name: 'customLogger',
+  level: 'debug',
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      singleLine: true,
+      colorize: true,
+      ignore: 'pid,hostname',
+      translateTime: 'SYS:standard',
+    },
+    timestamp: () => `,"timestamp": ${new Date().toISOString()}`,
+    messageKey: 'message'
+  }
+};
+
+const logger: Logger = pino(pinoConfig);
 
 export default logger;
