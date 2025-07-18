@@ -6,7 +6,7 @@ import { UserRepository } from '@user/repositories/user.repository';
 import logger from '@utils/logger';
 const userRepository: IUserRepository = new UserRepository();
 
-// TODO: call this function inside cli prompt solution, and remove from calling on app run
+// TODO: Work on creating a separate seed function, and call it through npm script on prompts basis seed
 
 export const createInitialUser = async () => {
   try {
