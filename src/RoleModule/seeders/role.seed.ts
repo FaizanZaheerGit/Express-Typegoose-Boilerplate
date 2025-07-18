@@ -6,7 +6,7 @@ import logger from '@utils/logger';
 
 const roleRepository: IRoleRepository = new RoleRepository();
 
-// TODO: call this function inside cli prompt solution, and remove from calling on app run
+// TODO: Work on creating a separate seed service, and call it through npm script on prompts basis seed
 
 export const createInitialRoles = async () => {
   try {
