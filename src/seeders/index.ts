@@ -1,10 +1,10 @@
-/* eslint-disable */
+/* eslint-disable no-console, @typescript-eslint/restrict-template-expressions */
 import { closeConnectionToMongo, connectToMongo } from '@database/database.intialization';
 import prompts from 'prompts';
 import { createInitialAdminUser } from './UsersModule/users.seed';
 import { createDefaultRoles } from './RolesModule/roles.seed';
 
-const seederOptions: any = {
+const seederOptions = {
   firstAdminUser: 'First Admin Script',
   defaultRoles: 'Default Role Script',
   allSeeders: 'All Scripts',
