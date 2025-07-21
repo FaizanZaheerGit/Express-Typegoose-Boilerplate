@@ -1,11 +1,13 @@
 /* eslint-disable */
 import { closeConnectionToMongo, connectToMongo } from '@database/database.intialization';
 import prompts from 'prompts';
+import { createInitialAdminUser } from './UsersModule/users.seed';
+import { createDefaultRoles } from './RolesModule/roles.seed';
 
 const seederOptions: any = {
-  adminUser: 1,
-  roles: 2,
-  all: 3,
+  firstAdminUser: 'First Admin Script',
+  defaultRoles: 'Default Role Script',
+  allSeeders: 'All Scripts',
 };
 
 void (async () => {
@@ -13,14 +15,23 @@ void (async () => {
     await connectToMongo();
     const response = await prompts({
       type: 'select',
-      name: 'seeder',
+      name: 'seedOption',
       message: 'Which seeder do you want to run?',
       choices: Object.keys(seederOptions).map((key) => ({ title: key, value: key })),
     });
-    console.log(`SELECTED SEED:   ${await seederOptions[response.seeder]}`);
+    if (response?.seedOption == 'firstAdminUser') {
+      await createInitialAdminUser();
+    } else if (response?.seedOption == 'defaultRoles') {
+      await createDefaultRoles();
+    } else if (response?.seedOption == 'allSeeders') {
+      await Promise.all([createDefaultRoles(), createInitialAdminUser()]);
+    } else {
+      console.log(`Invalid seeder option`);
+    }
     await closeConnectionToMongo();
     process.exit(0);
   } catch (err) {
     console.error(`ERROR IN RUNNING SEEDER:  ${err}`);
+    process.exit(1);
   }
 })();

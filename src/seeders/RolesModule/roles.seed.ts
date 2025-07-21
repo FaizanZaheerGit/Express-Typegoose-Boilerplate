@@ -6,9 +6,7 @@ import logger from '@utils/logger';
 
 const roleRepository: IRoleRepository = new RoleRepository();
 
-// TODO: Work on creating a separate seed service, and call it through npm script on prompts basis seed
-
-export const createInitialRoles = async () => {
+export const createDefaultRoles = async () => {
   try {
     const existingRole = await roleRepository.findOne({}, {});
     if (existingRole) {

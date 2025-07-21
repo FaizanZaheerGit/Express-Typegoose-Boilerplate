@@ -6,9 +6,7 @@ import { UserRepository } from '@user/repositories/user.repository';
 import logger from '@utils/logger';
 const userRepository: IUserRepository = new UserRepository();
 
-// TODO: Work on creating a separate seed function, and call it through npm script on prompts basis seed
-
-export const createInitialUser = async () => {
+export const createInitialAdminUser = async () => {
   try {
     const existingAdmin = await userRepository.getSingleActiveAdmin();
     if (existingAdmin) {

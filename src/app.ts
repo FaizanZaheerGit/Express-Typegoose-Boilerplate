@@ -9,14 +9,12 @@ import { connectToMongo } from '@database/database.intialization';
 import passport from '@middlewares/passport.middleware';
 import authRouter from '@auth/routes/auth.routes';
 import userRouter from '@user/routes/user.routes';
-// import { createInitialUser } from '@user/seeders/user.seed';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
 import '@auth/eventemitters/subscriber/auth.subscriber'; // NOTE: This is for initializing listener
 import logger from '@utils/logger';
 import roleRouter from '@roles/routes/role.routes';
-// import { createInitialRoles } from '@roles/seeders/role.seed';
 import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
@@ -42,8 +40,6 @@ app.get('/healthCheck', (req: Request, res: Response, next: NextFunction) => {
 });
 
 void connectToMongo();
-// createInitialUser(); // TODO: call this function inside cli prompt solution, and remove from calling on app run
-// createInitialRoles(); // TODO: call this function inside cli prompt solution, and remove from calling on app run
 
 app.use('/api/v1/auth', limiter, authRouter); // NOTE: Only added rate limiting in un-authenticated routes right now
 app.use('/api/v1/users', userRouter);
