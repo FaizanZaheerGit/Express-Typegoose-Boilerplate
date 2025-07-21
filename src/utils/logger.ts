@@ -1,5 +1,6 @@
 import pino, { Logger } from 'pino';
 import { nodeEnv } from '@config/index';
+// TODO: Not working as expected , check log file creation again
 
 const pinoConfig = nodeEnv.toLowerCase() === 'production' ? {
   name: 'customLogger',
