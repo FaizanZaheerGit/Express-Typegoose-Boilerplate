@@ -17,6 +17,8 @@ import logger from '@utils/logger';
 import roleRouter from '@roles/routes/role.routes';
 import rateLimit from 'express-rate-limit';
 
+// TODO: Implement graceful shutdown
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // NOTE: how long request should be remembered, currently set to 15 minutes
   limit: 100, // NOTE: Limit each IP to a specfic number of requests per windowMs, currently set to 100 requests
