@@ -18,6 +18,7 @@ import roleRouter from '@roles/routes/role.routes';
 import rateLimit from 'express-rate-limit';
 
 // TODO: Implement graceful shutdown
+// TODO: Implement Redis Caching mechanism
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // NOTE: how long request should be remembered, currently set to 15 minutes
