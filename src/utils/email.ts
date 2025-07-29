@@ -2,6 +2,8 @@ import { sendGridApiKey, sendGridFromEmail } from '@config/index';
 import sgMail from '@sendgrid/mail';
 import logger from '@utils/logger';
 
+// TODO: Replace Send Grid Items with Generic Mailer Items to send e-mail from any SMTP
+
 sgMail.setApiKey(sendGridApiKey);
 
 export const EmailSubjects = {
