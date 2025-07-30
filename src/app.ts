@@ -17,7 +17,6 @@ import logger from '@utils/logger';
 import roleRouter from '@roles/routes/role.routes';
 import rateLimit from 'express-rate-limit';
 
-// TODO: Implement graceful shutdown
 // TODO: Implement Redis Caching mechanism
 // TODO: Replace Send Grid Items with Generic Mailer Items to send e-mail from any SMTP
 
