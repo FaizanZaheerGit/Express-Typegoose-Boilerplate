@@ -1,21 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises, @typescript-eslint/restrict-template-expressions */
 import logger from '@utils/logger';
-import { closeConnectionToMongo } from '@database/database.intialization';
-import { Queue } from 'bullmq';
-import Redis from 'ioredis';
 import type { Server } from 'http';
+import { closeConnectionToMongo } from '@database/database.intialization';
+import { closeEmailQueueConnection } from '@queues/email.queue';
+import { closeSmsQueueConnection } from '@queues/sms.queue';
+import { closeRedisConnection } from '@queues/redis';
 
-interface ShutdownOptions {
-  server: Server;
-  redisClient?: Redis;
-  queues?: Queue[];
-}
-
-export const setupGracefulShutdown = ({
-  server,
-  redisClient,
-  queues = [],
-}: ShutdownOptions) => {
+export const setupGracefulShutdown = (server: Server) => {
   const shutdown = async () => {
     logger.warn({}, 'Graceful shutdown initiated...');
 
@@ -24,17 +15,17 @@ export const setupGracefulShutdown = ({
       await closeConnectionToMongo();
       logger.info({}, 'MongoDB connection closed successfully');
 
-      for (const queue of queues) {
-        logger.warn({}, `Closing ${queue.name} Queue...`);
-        await queue.close();
-        logger.info({}, `${queue.name} Queue closed successfully`);
-      }
+      logger.warn({}, `Closing Email Queue...`);
+      await closeEmailQueueConnection;
+      logger.info({}, `Email Queue closed successfully`);
 
-      if (redisClient) {
-        logger.warn({}, 'Closing MongoDB Connection...');
-        await redisClient.quit();
-        logger.info({}, 'Redis connection closed successfully');
-      }
+      logger.warn({}, `Closing Sms Queue...`);
+      await closeSmsQueueConnection;
+      logger.info({}, `Sms Queue closed successfully`);
+
+      logger.warn({}, 'Closing Redis Connection...');
+      await closeRedisConnection;
+      logger.info({}, 'Redis connection closed successfully');
 
       server.close(() => {
         logger.info({}, 'Express server closed successfully');

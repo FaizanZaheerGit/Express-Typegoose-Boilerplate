@@ -17,3 +17,13 @@ redisConnection.on('connect', () => {
 redisConnection.on('error', (err) => {
   logger.info({}, `Error in connecting redis:  ${err.message}`);
 });
+
+redisConnection.on("close", () => {
+  logger.info({}, `Redis Connection closed successfully!`);
+});
+
+redisConnection.on("end", () => {
+  logger.info({}, `Redis Connection ended successfully!`);
+})
+
+export const closeRedisConnection = redisConnection.quit();

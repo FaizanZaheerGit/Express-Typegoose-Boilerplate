@@ -16,6 +16,7 @@ import '@auth/eventemitters/subscriber/auth.subscriber'; // NOTE: This is for in
 import logger from '@utils/logger';
 import roleRouter from '@roles/routes/role.routes';
 import rateLimit from 'express-rate-limit';
+import { setupGracefulShutdown } from 'shutdown';
 
 // TODO: Implement Redis Caching mechanism
 // TODO: Replace Send Grid Items with Generic Mailer Items to send e-mail from any SMTP
@@ -58,6 +59,8 @@ if (nodeEnv.toLowerCase() !== 'production') {
   app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 }
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   logger.info({}, `Server is running and listening on PORT: ${port}`);
 });
+
+setupGracefulShutdown(server);
