@@ -9,8 +9,6 @@ import {
   verifyOtpSchema,
 } from '@auth/validators/auth.validator';
 import { authGuard } from '@middlewares/authentication.middleware';
-import { rbacGuard } from '@middlewares/rbac.middleware';
-import { PermissionEnums } from '@enums/permissions.enum';
 
 const authRouter: Router = Router();
 
@@ -32,7 +30,7 @@ authRouter.patch(
 
 authRouter.post(
   '/send-otp',
-  [authGuard, rbacGuard([PermissionEnums.CREATE_USERS]), validate({ body: sendOtpSchema })],
+  validate({ body: sendOtpSchema }),
   authController.sendOtp,
 );
 
