@@ -3,12 +3,14 @@ import { NextFunction, Request, Response } from 'express';
 import { sendResponse } from '@utils/response';
 import { UserService } from '@user/services/user.service';
 
-const userService: UserService = new UserService();
-
 export class UserController {
+  constructor() {}
+
+  private userService: UserService = new UserService();
+
   public async createUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const newUser = await userService.createUser(req.body);
+      const newUser = await this.userService.createUser(req.body);
       return sendResponse(res, 201, true, { entity: { _id: newUser['_id'] } }, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -18,7 +20,7 @@ export class UserController {
   public async readUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const { cursor, limit, ...filterQuery } = req.query;
-      const { users, hasNext, nextCursor } = await userService.getCursorBasedUsers(
+      const { users, hasNext, nextCursor } = await this.userService.getCursorBasedUsers(
         filterQuery,
         cursor,
         limit,
@@ -34,7 +36,7 @@ export class UserController {
       const { page, limit, ...filterQuery } = req.query;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      const { users, meta } = await userService.getPaginatedUser(page, limit, filterQuery);
+      const { users, meta } = await this.userService.getPaginatedUser(page, limit, filterQuery);
       return sendResponse(res, 200, true, { entites: users }, 'SUCCESS', meta);
     } catch (error) {
       next(error);
@@ -43,7 +45,7 @@ export class UserController {
 
   public async readUserById(req: Request, res: Response, next: NextFunction) {
     try {
-      const existingUser = await userService.getUser({ _id: req.params.id });
+      const existingUser = await this.userService.getUser({ _id: req.params.id });
       return sendResponse(res, 200, true, { entity: existingUser }, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -60,7 +62,7 @@ export class UserController {
 
   public async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const updatedUser = await userService.updateUser(req.params.id, req.body);
+      const updatedUser = await this.userService.updateUser(req.params.id, req.body);
       return sendResponse(
         res,
         200,
@@ -75,7 +77,7 @@ export class UserController {
 
   public async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
-      await userService.deleteUser(req.params.id);
+      await this.userService.deleteUser(req.params.id);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -84,7 +86,7 @@ export class UserController {
 
   public async changePassword(req: Request, res: Response, next: NextFunction) {
     try {
-      await userService.changePassword(req.body, req.user);
+      await this.userService.changePassword(req.body, req.user);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);

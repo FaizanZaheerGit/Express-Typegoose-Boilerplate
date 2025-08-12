@@ -21,7 +21,7 @@ const userController: UserController = new UserController();
 userRouter.post(
   '/',
   [authGuard, rbacGuard([PermissionEnums.CREATE_USERS]), validate({ body: createUserSchema })],
-  userController.createUser.bind(this),
+  userController.createUser.bind(userController),
 );
 
 userRouter.get(
@@ -36,7 +36,7 @@ userRouter.get(
     ]),
     validate({ query: getUsersSchema }),
   ],
-  userController.readUsers.bind(this),
+  userController.readUsers.bind(userController),
 );
 
 userRouter.get(
@@ -51,10 +51,10 @@ userRouter.get(
     ]),
     validate({ query: getPaginatedUsersSchema }),
   ],
-  userController.readPaginatedUsers.bind(this),
+  userController.readPaginatedUsers.bind(userController),
 );
 
-userRouter.get('/me', authGuard, userController.readCurrentUserDetails.bind(this));
+userRouter.get('/me', authGuard, userController.readCurrentUserDetails.bind(userController));
 
 userRouter.get(
   '/:id',
@@ -68,7 +68,7 @@ userRouter.get(
     ]),
     validate({ params: idParamSchema }),
   ],
-  userController.readUserById.bind(this),
+  userController.readUserById.bind(userController),
 );
 
 userRouter.put(
@@ -78,26 +78,26 @@ userRouter.put(
     rbacGuard([PermissionEnums.EDIT_USERS]),
     validate({ params: idParamSchema, body: updateUserSchema }),
   ],
-  userController.updateUser.bind(this),
+  userController.updateUser.bind(userController),
 );
 
 userRouter.put(
   '/admin/:id',
   [authGuard, onlyAdminGuard, validate({ params: idParamSchema, body: updateUserAdminSchema })],
-  userController.updateUser.bind(this),
+  userController.updateUser.bind(userController),
 );
 
 userRouter.delete(
   '/:id',
   rbacGuard([PermissionEnums.DELETE_USERS]),
   [authGuard, validate({ params: idParamSchema })],
-  userController.deleteUser.bind(this),
+  userController.deleteUser.bind(userController),
 );
 
 userRouter.patch(
   '/change-password',
   [authGuard, validate({ body: changePasswordSchema })],
-  userController.changePassword.bind(this),
+  userController.changePassword.bind(userController),
 );
 
 export default userRouter;

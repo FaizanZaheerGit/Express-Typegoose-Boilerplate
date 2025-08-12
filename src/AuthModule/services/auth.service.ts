@@ -18,14 +18,18 @@ import { IResetTokenRepository } from '@auth/interfaces/resettoken.repository.in
 import { IOtpTokenRepository } from '@auth/interfaces/otptoken.repository.interface';
 import logger from '@utils/logger';
 
-const otpTokenRepository: IOtpTokenRepository = new OtpTokenRepository();
-const resetTokenRepository: IResetTokenRepository = new ResetTokenRepository();
-const userService: UserService = new UserService();
-
 export class AuthService {
+  constructor() {}
+
+  private otpTokenRepository: IOtpTokenRepository = new OtpTokenRepository();
+  private resetTokenRepository: IResetTokenRepository = new ResetTokenRepository();
+  private userService: UserService = new UserService();
+
   public async login(body: { email: string; password: string }) {
     try {
-      const existingUser: User | null = await userService.getUserByEmailWithPassword(body.email);
+      const existingUser: User | null = await this.userService.getUserByEmailWithPassword(
+        body.email,
+      );
       if (!existingUser) {
         throw new AppError('Invalid email or password', 400);
       }
@@ -54,7 +58,7 @@ export class AuthService {
   public async forgotPassword(body: { email: string }) {
     const { email } = body;
     try {
-      const existingUser: User | null = await userService.getUserByEmailWithPassword(email);
+      const existingUser: User | null = await this.userService.getUserByEmailWithPassword(email);
       if (!existingUser) {
         throw new AppError('User does not exist', 404);
       }
@@ -62,7 +66,7 @@ export class AuthService {
         throw new AppError('This user is not active', 400);
       }
       const resetToken = uuidv4();
-      await resetTokenRepository.create({ user: existingUser['_id'], token: resetToken });
+      await this.resetTokenRepository.create({ user: existingUser['_id'], token: resetToken });
       const link: string = `${frontEndUrl}/reset-password?id=${String(existingUser['_id'])}&token=${resetToken}`;
       publishEmailEvent({
         recipients: [email],
@@ -80,18 +84,18 @@ export class AuthService {
   public async resetPassword(body: { id: string; newPassword: string; token: string }) {
     const { id, newPassword, token } = body;
     try {
-      const existingUser: User | null = await userService.getUserById(id);
+      const existingUser: User | null = await this.userService.getUserById(id);
       if (!existingUser) {
         throw new AppError('User does not exist', 404);
       }
-      const existingToken = await resetTokenRepository.getByTokenAndUser(existingUser, token);
+      const existingToken = await this.resetTokenRepository.getByTokenAndUser(existingUser, token);
       if (!existingToken || existingToken?.isExpired) {
         throw new AppError('Invalid or Expired Token', 400);
       }
       const hashedPassword = await generateHash(newPassword);
       await Promise.all([
-        userService.updateUserPasswordById(id, hashedPassword),
-        resetTokenRepository.updateTokensExpiryByUserId(String(existingUser['_id']), true),
+        this.userService.updateUserPasswordById(id, hashedPassword),
+        this.resetTokenRepository.updateTokensExpiryByUserId(String(existingUser['_id']), true),
       ]);
       return {};
     } catch (error) {
@@ -103,7 +107,7 @@ export class AuthService {
   public async sendOtp(body: { id: string }) {
     const { id } = body;
     try {
-      const existingUser: User | null = await userService.getUserById(id);
+      const existingUser: User | null = await this.userService.getUserById(id);
       if (!existingUser) {
         throw new AppError('User does not exist', 404);
       }
@@ -112,8 +116,8 @@ export class AuthService {
       }
       const otpToken = Math.floor(100000 + Math.random() * 900000).toString();
       await Promise.all([
-        otpTokenRepository.updateTokensExpiryByUserId(id, true),
-        otpTokenRepository.create({ user: existingUser['_id'], token: otpToken }),
+        this.otpTokenRepository.updateTokensExpiryByUserId(id, true),
+        this.otpTokenRepository.create({ user: existingUser['_id'], token: otpToken }),
       ]);
       publishEmailEvent({
         recipients: [existingUser?.email || ''],
@@ -137,20 +141,20 @@ export class AuthService {
   public async verifyOtp(body: { id: string; token: string }) {
     const { id, token } = body;
     try {
-      const existingUser: User | null = await userService.getUserById(id);
+      const existingUser: User | null = await this.userService.getUserById(id);
       if (!existingUser) {
         throw new AppError('User does not exist', 404);
       }
       if (existingUser?.status == StatusEnums.ACTIVE) {
         throw new AppError('This user is already verified', 400);
       }
-      const existingOtp = await otpTokenRepository.getByTokenAndUser(existingUser, token);
+      const existingOtp = await this.otpTokenRepository.getByTokenAndUser(existingUser, token);
       if (!existingOtp || existingOtp?.isExpired) {
         throw new AppError('Invalid or Expired Token', 400);
       }
       await Promise.all([
-        userService.updateUser(id, { status: StatusEnums.ACTIVE }),
-        otpTokenRepository.updateTokensExpiryByUserId(String(existingUser['_id']), true),
+        this.userService.updateUser(id, { status: StatusEnums.ACTIVE }),
+        this.otpTokenRepository.updateTokensExpiryByUserId(String(existingUser['_id']), true),
       ]);
       publishEmailEvent({
         recipients: [existingUser?.email || ''],

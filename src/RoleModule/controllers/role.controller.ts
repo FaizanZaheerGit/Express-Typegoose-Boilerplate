@@ -3,12 +3,14 @@ import { NextFunction, Request, Response } from 'express';
 import { sendResponse } from '@utils/response';
 import { RoleService } from '@roles/services/role.service';
 
-const roleService: RoleService = new RoleService();
-
 export class RoleController {
+  constructor() {}
+
+  private roleService: RoleService = new RoleService();
+
   public async createRole(req: Request, res: Response, next: NextFunction) {
     try {
-      const newRole = await roleService.createRole(req.body);
+      const newRole = await this.roleService.createRole(req.body);
       return sendResponse(res, 201, true, { entity: { _id: newRole['_id'] } }, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -18,7 +20,7 @@ export class RoleController {
   public async readRoles(req: Request, res: Response, next: NextFunction) {
     try {
       const { cursor, limit, ...filterQuery } = req.query;
-      const { roles, hasNext, nextCursor } = await roleService.getCursorBasedRoles(
+      const { roles, hasNext, nextCursor } = await this.roleService.getCursorBasedRoles(
         filterQuery,
         cursor,
         limit,
@@ -34,7 +36,7 @@ export class RoleController {
       const { page, limit, ...filterQuery } = req.query;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      const { roles, meta } = await roleService.getPaginatedRole(page, limit, filterQuery);
+      const { roles, meta } = await this.roleService.getPaginatedRole(page, limit, filterQuery);
       return sendResponse(res, 200, true, { entites: roles }, 'SUCCESS', meta);
     } catch (error) {
       next(error);
@@ -43,7 +45,7 @@ export class RoleController {
 
   public async readRoleById(req: Request, res: Response, next: NextFunction) {
     try {
-      const existingRole = await roleService.getRole({ _id: req.params.id });
+      const existingRole = await this.roleService.getRole({ _id: req.params.id });
       return sendResponse(res, 200, true, { entity: existingRole }, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -52,7 +54,7 @@ export class RoleController {
 
   public async updateRole(req: Request, res: Response, next: NextFunction) {
     try {
-      const updatedRole = await roleService.updateRole(req.params.id, req.body);
+      const updatedRole = await this.roleService.updateRole(req.params.id, req.body);
       return sendResponse(
         res,
         200,
@@ -67,7 +69,7 @@ export class RoleController {
 
   public async deleteRole(req: Request, res: Response, next: NextFunction) {
     try {
-      await roleService.deleteRole(req.params.id);
+      await this.roleService.deleteRole(req.params.id);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);

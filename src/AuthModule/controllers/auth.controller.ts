@@ -3,12 +3,14 @@ import { NextFunction, Request, Response } from 'express';
 import { sendResponse } from '@utils/response';
 import { AuthService } from '@auth/services/auth.service';
 
-const authService: AuthService = new AuthService();
-
 export class AuthController {
+  constructor() {}
+
+  private authService: AuthService = new AuthService();
+
   public async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const { user, token } = await authService.login(req.body);
+      const { user, token } = await this.authService.login(req.body);
       return sendResponse(res, 200, true, { entity: user, token: token }, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -25,7 +27,7 @@ export class AuthController {
 
   public async forgotPassword(req: Request, res: Response, next: NextFunction) {
     try {
-      await authService.forgotPassword(req.body);
+      await this.authService.forgotPassword(req.body);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -34,7 +36,7 @@ export class AuthController {
 
   public async resetPassword(req: Request, res: Response, next: NextFunction) {
     try {
-      await authService.resetPassword(req.body);
+      await this.authService.resetPassword(req.body);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -43,7 +45,7 @@ export class AuthController {
 
   public async sendOtp(req: Request, res: Response, next: NextFunction) {
     try {
-      await authService.sendOtp(req.body);
+      await this.authService.sendOtp(req.body);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);
@@ -51,7 +53,7 @@ export class AuthController {
   }
   public async verifyOtp(req: Request, res: Response, next: NextFunction) {
     try {
-      await authService.verifyOtp(req.body);
+      await this.authService.verifyOtp(req.body);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);

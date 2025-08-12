@@ -18,7 +18,7 @@ const roleController: RoleController = new RoleController();
 roleRouter.post(
   '/',
   [authGuard, rbacGuard([PermissionEnums.CREATE_ROLES]), validate({ body: createRoleSchema })],
-  roleController.createRole.bind(this),
+  roleController.createRole.bind(roleController),
 );
 
 roleRouter.get(
@@ -33,7 +33,7 @@ roleRouter.get(
     ]),
     validate({ query: getRolesSchema }),
   ],
-  roleController.readRoles.bind(this),
+  roleController.readRoles.bind(roleController),
 );
 
 roleRouter.get(
@@ -48,7 +48,7 @@ roleRouter.get(
     ]),
     validate({ query: getPaginatedRolesSchema }),
   ],
-  roleController.readPaginatedRoles.bind(this),
+  roleController.readPaginatedRoles.bind(roleController),
 );
 
 roleRouter.get(
@@ -63,7 +63,7 @@ roleRouter.get(
     ]),
     validate({ params: idParamSchema }),
   ],
-  roleController.readRoleById.bind(this),
+  roleController.readRoleById.bind(roleController),
 );
 
 roleRouter.put(
@@ -73,13 +73,13 @@ roleRouter.put(
     rbacGuard([PermissionEnums.EDIT_ROLES]),
     validate({ params: idParamSchema, body: updateRoleSchema }),
   ],
-  roleController.updateRole.bind(this),
+  roleController.updateRole.bind(roleController),
 );
 
 roleRouter.delete(
   '/:id',
   [authGuard, rbacGuard([PermissionEnums.DELETE_ROLES]), validate({ params: idParamSchema })],
-  roleController.deleteRole.bind(this),
+  roleController.deleteRole.bind(roleController),
 );
 
 export default roleRouter;

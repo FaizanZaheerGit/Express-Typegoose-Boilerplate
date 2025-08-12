@@ -11,13 +11,15 @@ import logger from '@utils/logger';
 import { RoleService } from '@roles/services/role.service';
 import { comparePassword, generateHash } from '@utils/bcrypt';
 
-const userRepository: IUserRepository = new UserRepository();
-const roleService: RoleService = new RoleService();
-
 export class UserService {
+  constructor() {}
+
+  private userRepository: IUserRepository = new UserRepository();
+  private roleService: RoleService = new RoleService();
+
   public async getUserByEmailWithPassword(email: string): Promise<User | null> {
     try {
-      return await userRepository.getUserByEmailWithPassword(email);
+      return await this.userRepository.getUserByEmailWithPassword(email);
     } catch (error) {
       logger.error({ body: { email } }, `Error in get user by email service:  =>  ${error}`);
       throw new AppError('' + error, 400);
@@ -26,7 +28,7 @@ export class UserService {
 
   public async getUserById(id: string): Promise<User | null> {
     try {
-      return await userRepository.getUserById(id);
+      return await this.userRepository.getUserById(id);
     } catch (error) {
       logger.error({ body: { id } }, `Error in get user by id service:  =>  ${error}`);
       throw new AppError('' + error, 400);
@@ -35,7 +37,7 @@ export class UserService {
 
   public async updateUserPasswordById(id: string, password: string) {
     try {
-      return await userRepository.updateUserById(id, { password: password });
+      return await this.userRepository.updateUserById(id, { password: password });
     } catch (error) {
       logger.error({ body: { id } }, `Error in update user password by id service:  =>  ${error}`);
       throw new AppError('' + error, 400);
@@ -53,7 +55,7 @@ export class UserService {
   }): Promise<User> {
     try {
       if (body?.roleIds && body?.roleIds.length) {
-        const existingRoles = await roleService.getRoleByIds(body?.roleIds);
+        const existingRoles = await this.roleService.getRoleByIds(body?.roleIds);
         if (
           !existingRoles ||
           !existingRoles.length ||
@@ -64,11 +66,11 @@ export class UserService {
           body['roles'] = existingRoles;
         }
       }
-      const existingUser: User | null = await userRepository.getUserByEmail(body.email);
+      const existingUser: User | null = await this.userRepository.getUserByEmail(body.email);
       if (existingUser) {
         throw new AppError('User with email already exists', 409);
       }
-      return await userRepository.create({ ...body, status: StatusEnums.PENDING });
+      return await this.userRepository.create({ ...body, status: StatusEnums.PENDING });
     } catch (error) {
       logger.error({ body: body }, `Error in create user service:  =>  ${error}`);
       throw new AppError('' + error, 400);
@@ -77,7 +79,7 @@ export class UserService {
 
   public async getAllUsers(filterQuery: FilterQuery<User> = {}): Promise<User[]> {
     try {
-      return await userRepository.getUsers(filterQuery);
+      return await this.userRepository.getUsers(filterQuery);
     } catch (error) {
       logger.error({ body: filterQuery }, `Error in get users service:  =>  ${error}`);
       throw new AppError('' + error, 400);
@@ -94,7 +96,7 @@ export class UserService {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const limitInt = parseInt(limit, 10);
-      const users = await userRepository.getCursorBasedUsers(filterQuery, cursor, limitInt);
+      const users = await this.userRepository.getCursorBasedUsers(filterQuery, cursor, limitInt);
       const hasNext = users.length > limit;
       if (hasNext) {
         users.pop();
@@ -116,8 +118,8 @@ export class UserService {
       const pageInt: number = parseInt(page, 10);
       const limitInt: number = parseInt(limit, 10);
       const [users, totalCount] = await Promise.all([
-        userRepository.getPaginatedUsers(pageInt, limitInt, filterQuery),
-        userRepository.countDocuments(filterQuery),
+        this.userRepository.getPaginatedUsers(pageInt, limitInt, filterQuery),
+        this.userRepository.countDocuments(filterQuery),
       ]);
       const totalPages = Math.ceil(totalCount / limitInt);
       const hasNext: boolean = pageInt < totalPages;
@@ -142,7 +144,7 @@ export class UserService {
 
   public async getUser(filterQuery: FilterQuery<User> = {}): Promise<User | null> {
     try {
-      const existingUser = await userRepository.getSingleUser(filterQuery);
+      const existingUser = await this.userRepository.getSingleUser(filterQuery);
       if (!existingUser) {
         throw new AppError('User not found', 404);
       }
@@ -158,7 +160,7 @@ export class UserService {
     body: { name?: string; status?: StatusEnums; userType?: UserTypeEnum },
   ): Promise<User | null> {
     try {
-      return await userRepository.updateUserById(id, body);
+      return await this.userRepository.updateUserById(id, body);
     } catch (error) {
       logger.error({ body: { id, ...body } }, `Error in update user service:  =>  ${error}`);
       throw new AppError('' + error, 400);
@@ -167,7 +169,7 @@ export class UserService {
 
   public async deleteUser(id: string): Promise<User | null> {
     try {
-      return await userRepository.updateUserById(id, { status: StatusEnums.DELETED });
+      return await this.userRepository.updateUserById(id, { status: StatusEnums.DELETED });
     } catch (error) {
       logger.error({ body: { id } }, `Error in delete user service:  =>  ${error}`);
       throw new AppError('' + error, 400);
@@ -183,7 +185,7 @@ export class UserService {
     currentUser: User,
   ): Promise<User | null> {
     try {
-      const existingUser = await userRepository.getUserById(body.id);
+      const existingUser = await this.userRepository.getUserById(body.id);
       if (!existingUser) {
         throw new AppError(`User does not exist!`, 400);
       }
@@ -198,7 +200,7 @@ export class UserService {
         throw new AppError('Old password does not match!', 400);
       }
       const newPasswordHash: string = await generateHash(body.newPassword);
-      return await userRepository.updateUserById(body.id, { password: newPasswordHash });
+      return await this.userRepository.updateUserById(body.id, { password: newPasswordHash });
     } catch (error) {
       logger.error({ body }, `Error in change password service:  =>  ${error}`);
       throw new AppError('' + error, 400);
