@@ -8,16 +8,17 @@ import {
   idParamSchema,
   updateRoleSchema,
 } from '@roles/validators/role.validator';
-import * as roleController from '@roles/controllers/role.controller';
+import { RoleController } from '@roles/controllers/role.controller';
 import { rbacGuard } from '@middlewares/rbac.middleware';
 import { PermissionEnums } from '@enums/permissions.enum';
 
 const roleRouter: Router = Router();
+const roleController: RoleController = new RoleController();
 
 roleRouter.post(
   '/',
   [authGuard, rbacGuard([PermissionEnums.CREATE_ROLES]), validate({ body: createRoleSchema })],
-  roleController.createRole,
+  roleController.createRole.bind(this),
 );
 
 roleRouter.get(
@@ -32,7 +33,7 @@ roleRouter.get(
     ]),
     validate({ query: getRolesSchema }),
   ],
-  roleController.readRoles,
+  roleController.readRoles.bind(this),
 );
 
 roleRouter.get(
@@ -47,7 +48,7 @@ roleRouter.get(
     ]),
     validate({ query: getPaginatedRolesSchema }),
   ],
-  roleController.readPaginatedRoles,
+  roleController.readPaginatedRoles.bind(this),
 );
 
 roleRouter.get(
@@ -62,7 +63,7 @@ roleRouter.get(
     ]),
     validate({ params: idParamSchema }),
   ],
-  roleController.readRoleById,
+  roleController.readRoleById.bind(this),
 );
 
 roleRouter.put(
@@ -72,13 +73,13 @@ roleRouter.put(
     rbacGuard([PermissionEnums.EDIT_ROLES]),
     validate({ params: idParamSchema, body: updateRoleSchema }),
   ],
-  roleController.updateRole,
+  roleController.updateRole.bind(this),
 );
 
 roleRouter.delete(
   '/:id',
   [authGuard, rbacGuard([PermissionEnums.DELETE_ROLES]), validate({ params: idParamSchema })],
-  roleController.deleteRole,
+  roleController.deleteRole.bind(this),
 );
 
 export default roleRouter;

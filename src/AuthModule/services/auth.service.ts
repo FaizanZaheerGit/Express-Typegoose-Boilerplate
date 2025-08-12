@@ -6,7 +6,7 @@ import { StatusEnums } from '@enums/status.enums';
 import { User } from '@user/models/user.model';
 import { OtpTokenRepository } from '@auth/repositories/otptokens.repository';
 import { ResetTokenRepository } from '@auth/repositories/resettokens.repository';
-import * as userService from '@user/services/user.service';
+import { UserService } from '@user/services/user.service';
 import { AppError } from '@utils/apperror';
 import { comparePassword, generateHash } from '@utils/bcrypt';
 import { generateToken } from '@utils/jwt';
@@ -20,6 +20,7 @@ import logger from '@utils/logger';
 
 const otpTokenRepository: IOtpTokenRepository = new OtpTokenRepository();
 const resetTokenRepository: IResetTokenRepository = new ResetTokenRepository();
+const userService: UserService = new UserService();
 
 export class AuthService {
   public async login(body: { email: string; password: string }) {

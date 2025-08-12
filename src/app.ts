@@ -18,7 +18,6 @@ import roleRouter from '@roles/routes/role.routes';
 import rateLimit from 'express-rate-limit';
 import { setupGracefulShutdown } from 'shutdown';
 
-// TODO: Convert controllers, services, repositories and routes to a class based approach
 // TODO: Add repl support
 // TODO: Add Display Picutre in users model and File Uploading to Cloud
 // TODO: Add Notifications model and Sockets for Real-time notifications push
