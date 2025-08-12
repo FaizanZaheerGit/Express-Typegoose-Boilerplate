@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import * as authController from '@auth/controllers/auth.controller';
 import { validate } from '@middlewares/validate.middleware';
 import {
   forgotPasswordSchema,
@@ -9,32 +8,34 @@ import {
   verifyOtpSchema,
 } from '@auth/validators/auth.validator';
 import { authGuard } from '@middlewares/authentication.middleware';
+import { AuthController } from '@auth/controllers/auth.controller';
 
 const authRouter: Router = Router();
+const authController: AuthController = new AuthController();
 
-authRouter.post('/login', validate({ body: loginSchema }), authController.login);
+authRouter.post('/login', validate({ body: loginSchema }), authController.login.bind(this));
 
-authRouter.get('/logout', authGuard, authController.logout);
+authRouter.get('/logout', authGuard, authController.logout.bind(this));
 
 authRouter.post(
   '/forgot-password',
   validate({ body: forgotPasswordSchema }),
-  authController.forgotPassword,
+  authController.forgotPassword.bind(this),
 );
 
 authRouter.patch(
   '/reset-password',
   validate({ body: resetPasswordSchema }),
-  authController.resetPassword,
+  authController.resetPassword.bind(this),
 );
 
-authRouter.post(
-  '/send-otp',
-  validate({ body: sendOtpSchema }),
-  authController.sendOtp,
-);
+authRouter.post('/send-otp', validate({ body: sendOtpSchema }), authController.sendOtp.bind(this));
 
-authRouter.patch('/verify-otp', validate({ body: verifyOtpSchema }), authController.verifyOtp);
+authRouter.patch(
+  '/verify-otp',
+  validate({ body: verifyOtpSchema }),
+  authController.verifyOtp.bind(this),
+);
 
 // TODO: Remove extra encryption layer, and work on accessToken and refreshToken functionality
 // authRouter.get('/refresh-token')
