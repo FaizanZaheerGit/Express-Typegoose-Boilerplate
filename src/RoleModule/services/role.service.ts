@@ -53,7 +53,6 @@ export class RoleService {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const limitInt = parseInt(limit, 10);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const roles = await this.roleRepository.getCursorBasedRoles(filterQuery, cursor, limitInt);
       const hasNext = roles.length > limit;
       if (hasNext) {
