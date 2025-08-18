@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands,@typescript-eslint/restrict-template-expressions */
 import { FilterQuery } from 'mongoose';
 import { User } from '@user/models/user.model';
-import { UserRepository } from '@user/repositories/user.repository';
+// import { UserRepository } from '@user/repositories/user.repository';
 import { StatusEnums } from '@enums/status.enums';
 import { UserTypeEnum } from '@enums/userType.enum';
 import { AppError } from '@utils/apperror';
@@ -12,10 +12,10 @@ import { RoleService } from '@roles/services/role.service';
 import { comparePassword, generateHash } from '@utils/bcrypt';
 
 export class UserService {
-  constructor() {}
-
-  private userRepository: IUserRepository = new UserRepository();
-  private roleService: RoleService = new RoleService();
+  constructor(
+    private readonly userRepository: IUserRepository,
+    private readonly roleService: RoleService,
+  ) {}
 
   public async getUserByEmailWithPassword(email: string): Promise<User | null> {
     try {

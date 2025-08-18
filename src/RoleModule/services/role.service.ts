@@ -5,15 +5,12 @@ import { AppError } from '@utils/apperror';
 import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
 import logger from '@utils/logger';
 import { IRoleRepository } from '@roles/interfaces/role.repository.interface';
-import { RoleRepository } from '@roles/repositories/role.repository';
 import { Role } from '@roles/models/role.model';
 import { PermissionEnums } from '@enums/permissions.enum';
 import { DefaultRoleEnums } from '@enums/defaultRoles.enum';
 
 export class RoleService {
-  constructor() {}
-
-  private roleRepository: IRoleRepository = new RoleRepository();
+  constructor(private readonly roleRepository: IRoleRepository) {}
 
   public async getRoleByIds(ids: string[]): Promise<Role[]> {
     try {

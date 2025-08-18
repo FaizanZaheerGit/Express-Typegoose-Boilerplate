@@ -4,9 +4,7 @@ import { sendResponse } from '@utils/response';
 import { AuthService } from '@auth/services/auth.service';
 
 export class AuthController {
-  constructor() {}
-
-  private authService: AuthService = new AuthService();
+  constructor(private readonly authService: AuthService) {}
 
   public async login(req: Request, res: Response, next: NextFunction) {
     try {

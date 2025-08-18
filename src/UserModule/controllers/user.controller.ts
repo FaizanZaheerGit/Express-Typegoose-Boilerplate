@@ -4,9 +4,7 @@ import { sendResponse } from '@utils/response';
 import { UserService } from '@user/services/user.service';
 
 export class UserController {
-  constructor() {}
-
-  private userService: UserService = new UserService();
+  constructor(private readonly userService: UserService) {}
 
   public async createUser(req: Request, res: Response, next: NextFunction) {
     try {

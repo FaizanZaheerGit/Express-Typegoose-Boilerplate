@@ -4,9 +4,7 @@ import { sendResponse } from '@utils/response';
 import { RoleService } from '@roles/services/role.service';
 
 export class RoleController {
-  constructor() {}
-
-  private roleService: RoleService = new RoleService();
+  constructor(private readonly roleService: RoleService) {}
 
   public async createRole(req: Request, res: Response, next: NextFunction) {
     try {

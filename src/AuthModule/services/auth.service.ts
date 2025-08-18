@@ -4,8 +4,6 @@
 import { frontEndUrl } from '@config/index';
 import { StatusEnums } from '@enums/status.enums';
 import { User } from '@user/models/user.model';
-import { OtpTokenRepository } from '@auth/repositories/otptokens.repository';
-import { ResetTokenRepository } from '@auth/repositories/resettokens.repository';
 import { UserService } from '@user/services/user.service';
 import { AppError } from '@utils/apperror';
 import { comparePassword, generateHash } from '@utils/bcrypt';
@@ -19,11 +17,11 @@ import { IOtpTokenRepository } from '@auth/interfaces/otptoken.repository.interf
 import logger from '@utils/logger';
 
 export class AuthService {
-  constructor() {}
-
-  private otpTokenRepository: IOtpTokenRepository = new OtpTokenRepository();
-  private resetTokenRepository: IResetTokenRepository = new ResetTokenRepository();
-  private userService: UserService = new UserService();
+  constructor(
+    private readonly otpTokenRepository: IOtpTokenRepository,
+    private readonly resetTokenRepository: IResetTokenRepository,
+    private readonly userService: UserService,
+  ) {}
 
   public async login(body: { email: string; password: string }) {
     try {

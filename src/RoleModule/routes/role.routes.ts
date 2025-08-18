@@ -11,9 +11,14 @@ import {
 import { RoleController } from '@roles/controllers/role.controller';
 import { rbacGuard } from '@middlewares/rbac.middleware';
 import { PermissionEnums } from '@enums/permissions.enum';
+import { RoleRepository } from '@roles/repositories/role.repository';
+import { IRoleRepository } from '@roles/interfaces/role.repository.interface';
+import { RoleService } from '@roles/services/role.service';
 
 const roleRouter: Router = Router();
-const roleController: RoleController = new RoleController();
+const roleRepository: IRoleRepository = new RoleRepository();
+const roleService: RoleService = new RoleService(roleRepository);
+const roleController: RoleController = new RoleController(roleService);
 
 roleRouter.post(
   '/',
