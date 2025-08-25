@@ -57,7 +57,7 @@ app.use('/api/v1/roles', roleRouter);
 app.use(passport.initialize());
 app.use(globalErrorHandler);
 
-if (nodeEnv.toLowerCase() !== 'production') {
+if (nodeEnv.toLowerCase() !== 'production' || nodeEnv.toLowerCase() !== 'prod') {
   const specs = YAML.load('./swagger.yaml');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
