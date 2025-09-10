@@ -16,7 +16,7 @@ This Project contains the following: -
 8. Bull Queues with Redis for sending Emails and SMS
 9. prettier and eslint setup
 10. Swagger API documentation
-11. Optimized Docker build
+11. Graceful Shutdown
 
 
 Before running the main project make sure that queue processors are running using :-
