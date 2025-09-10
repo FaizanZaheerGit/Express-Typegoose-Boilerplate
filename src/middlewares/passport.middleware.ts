@@ -1,10 +1,9 @@
-// TODO: Remove extra encryption layer, and work on accessToken and refreshToken functionality
+// TODO: Work on accessToken and refreshToken functionality
 
 import { jwtSecret } from '@config/index';
 import { Request } from 'express';
 import passport from 'passport';
 import { Strategy as JwtStategy, ExtractJwt } from 'passport-jwt';
-import { decryptToken } from '@utils/jwt';
 import { UserRepository } from '@user/repositories/user.repository';
 import { AppError } from '@utils/apperror';
 import { IUserRepository } from '@user/interfaces/user.repository.interface';
@@ -15,9 +14,8 @@ const userRepository: IUserRepository = new UserRepository();
 const cookieExtractor = (req: Request) => {
   let token = null;
   if (req?.headers?.authorization) {
-    const encryptedToken = req.headers.authorization.split(' ')[1];
     try {
-      token = decryptToken(encryptedToken);
+      token = req.headers.authorization.split(' ')[1];
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       logger.error({}, `${error}`);

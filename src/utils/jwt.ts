@@ -1,4 +1,4 @@
-// TODO: Remove extra encryption layer and work on accessToken and refreshToken functionality
+// TODO: Work on accessToken and refreshToken functionality
 
 import { jwtSecret } from '@config/index';
 import * as jwt from 'jsonwebtoken';
@@ -9,17 +9,7 @@ const algo = 'aes-256-gcm';
 
 export const generateToken = (payload: object): string => {
   const jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '1d' });
-
-  const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv(algo, key, iv);
-
-  let encrypted = cipher.update(jwtToken, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-
-  const authTag = cipher.getAuthTag();
-
-  const result = `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted}`;
-  return result;
+  return jwtToken;
 };
 
 export const decryptToken = (token: string): string => {
