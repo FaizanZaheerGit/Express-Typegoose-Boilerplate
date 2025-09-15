@@ -63,7 +63,7 @@ authRouter.patch(
   authController.verifyOtp.bind(authController),
 );
 
-// TODO: Remove extra encryption layer, and work on accessToken and refreshToken functionality
+// TODO: Work on accessToken and refreshToken functionality
 // authRouter.get('/refresh-token')
 
 export default authRouter;
