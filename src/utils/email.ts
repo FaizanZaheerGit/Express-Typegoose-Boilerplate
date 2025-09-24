@@ -3,8 +3,6 @@ import { smtpHost, smtpPort, smtpUser, smtpPassword, smtpFromEmail } from '@conf
 import nodeMailer from 'nodemailer';
 import logger from '@utils/logger';
 
-// TODO: Replace Send Grid Items with Generic Mailer Items to send e-mail from any SMTP
-
 // sgMail.setApiKey(sendGridApiKey);
 
 export const EmailSubjects = {

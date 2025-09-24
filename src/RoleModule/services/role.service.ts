@@ -2,7 +2,7 @@
 import { FilterQuery } from 'mongoose';
 import { StatusEnums } from '@enums/status.enums';
 import { AppError } from '@utils/apperror';
-import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
+import { PaginationMetaType } from '@utils/paginatedRepsonse';
 import logger from '@utils/logger';
 import { IRoleRepository } from '@roles/interfaces/role.repository.interface';
 import { Role } from '@roles/models/role.model';

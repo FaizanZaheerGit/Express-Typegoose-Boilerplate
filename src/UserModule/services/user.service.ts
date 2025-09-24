@@ -6,7 +6,7 @@ import { StatusEnums } from '@enums/status.enums';
 import { UserTypeEnum } from '@enums/userType.enum';
 import { AppError } from '@utils/apperror';
 import { IUserRepository } from '@user/interfaces/user.repository.interface';
-import { PaginationMetaType } from '@utils/paginatedRepsonse.type';
+import { PaginationMetaType } from '@utils/paginatedRepsonse';
 import logger from '@utils/logger';
 import { RoleService } from '@roles/services/role.service';
 import { comparePassword, generateHash } from '@utils/bcrypt';
