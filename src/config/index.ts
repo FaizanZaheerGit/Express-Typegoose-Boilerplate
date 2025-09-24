@@ -15,8 +15,13 @@ export const saltWorkFactor = process.env.SALT_WORK_FACTOR
 export const adminName = process.env.ADMIN_NAME || 'Administrator';
 export const adminEmail = process.env.ADMIN_EMAIL || '';
 export const adminPassword = process.env.ADMIN_PASSWORD || '';
-export const sendGridApiKey = process.env.SENDGRID_API_KEY || '';
-export const sendGridFromEmail = process.env.SENDGRID_FROM_EMAIL || '';
+// export const sendGridApiKey = process.env.SENDGRID_API_KEY || '';
+// export const sendGridFromEmail = process.env.SENDGRID_FROM_EMAIL || '';
+export const smtpHost = process.env.SMTP_HOST || '';
+export const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
+export const smtpUser = process.env.SMTP_USER || '';
+export const smtpPassword = process.env.SMTP_PASSWORD || '';
+export const smtpFromEmail = process.env.SMTP_FROM_EMAIL || '';
 export const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID || '';
 export const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN || '';
 export const twilioFromNumber = process.env.TWILIO_FROM_NUMBER || '';
@@ -35,8 +40,13 @@ const envSchema = z.object({
   ADMIN_NAME: z.string().optional().default('Administrator'),
   ADMIN_EMAIL: z.string().min(1, 'ADMIN_EMAIL is required'),
   ADMIN_PASSWORD: z.string().min(1, 'ADMIN_PASSWORD is required'),
-  SENDGRID_API_KEY: z.string().min(1, 'SENDGRID_API_KEY is requried'),
-  SENDGRID_FROM_EMAIL: z.string().min(1, 'SENDGRID_FROM_EMAIL is required'),
+  // SENDGRID_API_KEY: z.string().min(1, 'SENDGRID_API_KEY is requried'),
+  // SENDGRID_FROM_EMAIL: z.string().min(1, 'SENDGRID_FROM_EMAIL is required'),
+  SMTP_HOST: z.string().min(1, 'SMTP_HOST is required'),
+  SMTP_PORT: z.string().min(1, 'SMTP_PORT is required'),
+  SMTP_USER: z.string().min(1, 'SMTP_USER is required'),
+  SMTP_PASSWORD: z.string().min(1, 'SMTP_PASSWORD is required'),
+  SMTP_FROM_EMAIL: z.string().min(1, 'SMTP_FROM_EMAIL is required'),
   TWILIO_ACCOUNT_SID: z.string().min(1, 'TWILIO_ACCOUNT_SID is required'),
   TWILIO_AUTH_TOKEN: z.string().min(1, 'TWILIO_AUTH_TOKEN is required'),
   TWILIO_FROM_NUMBER: z.string().min(1, 'TWILIO_FROM_NUMBER is required'),
