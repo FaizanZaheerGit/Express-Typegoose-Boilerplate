@@ -24,7 +24,8 @@ import { setupGracefulShutdown } from 'shutdown';
 // TODO: Add repl support
 // TODO: Add Display Picutre in users model and File Uploading to Cloud
 // TODO: Add Notifications model and Sockets for Real-time notifications push
-// TODO: Implement Redis Caching mechanism
+// TODO: Implement Redis Caching mechanism if needed
+// TODO: Look into sentry (or other tools) for capturing and monitoring exceptions and errors
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // NOTE: how long request should be remembered, currently set to 15 minutes
