@@ -3,11 +3,11 @@ import {
   NotificationCategories,
   NotificationChannels,
 } from '@notification/enums/notification.enum';
-import { modelOptions, prop } from '@typegoose/typegoose';
+import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { Types } from 'mongoose';
 
 @modelOptions({ schemaOptions: { versionKey: false, timestamps: true } })
-export class NotifcationClass extends BaseClass {
+export class Notification extends BaseClass {
   @prop({ type: String, required: true })
   title!: string;
 
@@ -48,3 +48,5 @@ export class NotifcationClass extends BaseClass {
   })
   channel?: NotificationChannels;
 }
+
+export const NotificationModel = getModelForClass(Notification);
