@@ -9,6 +9,7 @@ import { connectToMongo } from '@database/database.intialization';
 import passport from '@middlewares/passport.middleware';
 import authRouter from '@auth/routes/auth.routes';
 import userRouter from '@user/routes/user.routes';
+import notificationRouter from '@notification/routes/notification.routes';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
@@ -52,6 +53,7 @@ void connectToMongo();
 app.use('/api/v1/auth', limiter, authRouter); // NOTE: Only added rate limiting in un-authenticated routes right now
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/roles', roleRouter);
+app.use('/api/v1/notifications', notificationRouter);
 
 app.use(passport.initialize());
 app.use(globalErrorHandler);
