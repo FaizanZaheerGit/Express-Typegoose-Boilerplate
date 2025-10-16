@@ -23,10 +23,10 @@ export class Notification extends BaseClass {
   @prop({ type: Boolean, default: false, index: true })
   seen?: boolean;
 
-  @prop({ type: Boolean, default: false })
+  @prop({ type: Boolean, default: false, index: true })
   dismissed?: boolean;
 
-  @prop({ type: Date, default: null, index: true })
+  @prop({ type: Date, default: null })
   seenTime?: Date;
 
   @prop({ type: Date, default: null })
@@ -44,7 +44,6 @@ export class Notification extends BaseClass {
     type: NotificationChannels,
     enum: NotificationCategories,
     default: NotificationChannels.PUSH,
-    index: true,
   })
   channel?: NotificationChannels;
 }
