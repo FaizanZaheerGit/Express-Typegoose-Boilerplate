@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import { sendResponse } from '@utils/response';
 import { nodeEnv, port } from '@config/index';
 import { globalErrorHandler } from '@middlewares/error.middleware';
-import { connectToMongo } from '@database/database.intialization';
+import { connectToMongo } from '@database/database.initialization';
 import passport from '@middlewares/passport.middleware';
 import authRouter from '@auth/routes/auth.routes';
 import userRouter from '@user/routes/user.routes';

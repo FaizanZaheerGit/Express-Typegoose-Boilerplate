@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises, @typescript-eslint/restrict-template-expressions */
 import logger from '@utils/logger';
 import type { Server } from 'http';
-import { closeConnectionToMongo } from '@database/database.intialization';
+import { closeConnectionToMongo } from '@database/database.initialization';
 import { closeEmailQueueConnection } from '@queues/email.queue';
 import { closeSmsQueueConnection } from '@queues/sms.queue';
 import { closeRedisConnection } from '@queues/redis';

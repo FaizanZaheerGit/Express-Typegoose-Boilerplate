@@ -1,5 +1,5 @@
 /* eslint-disable no-console, @typescript-eslint/restrict-template-expressions */
-import { closeConnectionToMongo, connectToMongo } from '@database/database.intialization';
+import { closeConnectionToMongo, connectToMongo } from '@database/database.initialization';
 import prompts from 'prompts';
 import { createInitialAdminUser } from './UsersModule/users.seed';
 import { createDefaultRoles } from './RolesModule/roles.seed';
