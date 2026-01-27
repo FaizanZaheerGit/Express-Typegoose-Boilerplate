@@ -2,6 +2,8 @@ import IoRedis from 'ioredis';
 import { redisHost, redisPort, redisUsername, redisPassword } from '@config/index';
 import logger from '@utils/logger';
 
+// TODO: Implement Redis Caching mechanism Boilerplate to add and delete redis memory data and keys
+
 export const redisConnection: IoRedis = new IoRedis({
   host: redisHost || 'localhost',
   port: redisPort || 6379,
