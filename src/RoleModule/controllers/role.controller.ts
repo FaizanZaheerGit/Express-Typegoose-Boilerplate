@@ -52,7 +52,7 @@ export class RoleController {
 
   public async updateRole(req: Request, res: Response, next: NextFunction) {
     try {
-      const updatedRole = await this.roleService.updateRole(req.params.id, req.body);
+      const updatedRole = await this.roleService.updateRole(req.params.id as string, req.body);
       return sendResponse(
         res,
         200,
@@ -67,7 +67,7 @@ export class RoleController {
 
   public async deleteRole(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.roleService.deleteRole(req.params.id);
+      await this.roleService.deleteRole(req.params.id as string);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);

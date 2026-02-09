@@ -24,7 +24,6 @@ import { setupGracefulShutdown } from 'shutdown';
 // TODO: Add repl support
 // TODO: Add Display Picutre in users model and File Uploading to Cloud
 // TODO: Add Notifications model and Sockets for Real-time notifications push
-// TODO: Implement Redis Caching mechanism Boilerplate to add and delete redis memory data and keys
 // TODO: Look into sentry (or other tools) for capturing and monitoring exceptions and errors
 
 const limiter = rateLimit({

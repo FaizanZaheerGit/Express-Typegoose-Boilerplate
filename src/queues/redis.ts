@@ -12,6 +12,33 @@ export const redisConnection: IoRedis = new IoRedis({
   maxRetriesPerRequest: null,
 });
 
+export const getRedisDataByKey = async (key: string): Promise<string|null> => {
+  return await redisConnection.get(key);
+}
+
+export const setRedisDataByKey = async (data: string, key: string, ttlSeconds?: number): Promise<boolean> => {
+  try {
+    if (ttlSeconds) {
+      await redisConnection.set(key, data, 'EX', ttlSeconds);
+    }
+    else {
+      await redisConnection.set(key, data);
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export const deleteRedisDataByKey = async (key: string) => {
+  try {
+    await redisConnection.del(key);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
 redisConnection.on('connect', () => {
   logger.info({}, 'Redis Connected!');
 });
@@ -28,4 +55,6 @@ redisConnection.on("end", () => {
   logger.info({}, `Redis Connection ended successfully!`);
 })
 
-export const closeRedisConnection = redisConnection.quit();
+export const closeRedisConnection = async () => {
+  await redisConnection.quit();
+}

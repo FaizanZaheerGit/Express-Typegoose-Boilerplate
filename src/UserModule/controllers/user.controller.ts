@@ -60,7 +60,7 @@ export class UserController {
 
   public async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const updatedUser = await this.userService.updateUser(req.params.id, req.body);
+      const updatedUser = await this.userService.updateUser(req.params.id as string, req.body);
       return sendResponse(
         res,
         200,
@@ -75,7 +75,7 @@ export class UserController {
 
   public async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.userService.deleteUser(req.params.id);
+      await this.userService.deleteUser(req.params.id as string);
       return sendResponse(res, 200, true, {}, 'SUCCESS');
     } catch (error) {
       next(error);
