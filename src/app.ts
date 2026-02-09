@@ -22,8 +22,8 @@ import { setupGracefulShutdown } from 'shutdown';
 // TODO: Review All validation errors and fix which ones are remaining
 // TODO: look into dependency injection for class based approach
 // TODO: Add repl support
-// TODO: Add Display Picutre in users model and File Uploading to Cloud
 // TODO: Add Notifications model and Sockets for Real-time notifications push
+// TODO: Implement a proper structure to initialize redis in a different place and a separate redis service for other functions
 // TODO: Look into sentry (or other tools) for capturing and monitoring exceptions and errors
 
 const limiter = rateLimit({
