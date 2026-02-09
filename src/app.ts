@@ -19,7 +19,7 @@ import roleRouter from '@roles/routes/role.routes';
 import rateLimit from 'express-rate-limit';
 import { setupGracefulShutdown } from 'shutdown';
 
-// TODO: Review All validation errors anf fix which ones are remaining
+// TODO: Review All validation errors and fix which ones are remaining
 // TODO: look into dependency injection for class based approach
 // TODO: Add repl support
 // TODO: Add Display Picutre in users model and File Uploading to Cloud
