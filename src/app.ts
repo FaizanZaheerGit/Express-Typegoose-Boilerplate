@@ -17,7 +17,7 @@ import '@auth/eventemitters/subscriber/auth.subscriber'; // NOTE: This is for in
 import logger from '@utils/logger';
 import roleRouter from '@roles/routes/role.routes';
 import rateLimit from 'express-rate-limit';
-import { setupGracefulShutdown } from 'shutdown';
+import { setupGracefulShutdown } from '@src/shutdown';
 
 // TODO: Review All validation errors and fix which ones are remaining
 // TODO: look into dependency injection for class based approach

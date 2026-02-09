@@ -26,8 +26,8 @@ export const emailTransporter = nodeMailer.createTransport({
   secure: smtpPort == 465,
   auth: {
     user: smtpUser,
-    pass: smtpPassword
-  }
+    pass: smtpPassword,
+  },
 });
 
 // NOTE: Using .then() , .catch() because try-catch with async await was giving typescript error on error.response
@@ -47,7 +47,10 @@ export const sendEmails = async (
       text,
     });
 
-    logger.info({ to, from: smtpFromEmail, subject, messageId: info.messageId }, `EMAIL SEND SUCCESSFULLY!`);
+    logger.info(
+      { to, from: smtpFromEmail, subject, messageId: info.messageId },
+      `EMAIL SEND SUCCESSFULLY!`,
+    );
   } catch (error) {
     logger.error({}, `ERROR IN SENDING EMAIL:  =>. ${JSON.stringify(error)}`);
   }

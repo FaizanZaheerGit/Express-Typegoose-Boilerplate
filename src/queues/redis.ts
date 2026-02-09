@@ -12,23 +12,26 @@ export const redisConnection: IoRedis = new IoRedis({
   maxRetriesPerRequest: null,
 });
 
-export const getRedisDataByKey = async (key: string): Promise<string|null> => {
+export const getRedisDataByKey = async (key: string): Promise<string | null> => {
   return await redisConnection.get(key);
-}
+};
 
-export const setRedisDataByKey = async (data: string, key: string, ttlSeconds?: number): Promise<boolean> => {
+export const setRedisDataByKey = async (
+  data: string,
+  key: string,
+  ttlSeconds?: number,
+): Promise<boolean> => {
   try {
     if (ttlSeconds) {
       await redisConnection.set(key, data, 'EX', ttlSeconds);
-    }
-    else {
+    } else {
       await redisConnection.set(key, data);
     }
     return true;
   } catch (error) {
     return false;
   }
-}
+};
 
 export const deleteRedisDataByKey = async (key: string) => {
   try {
@@ -37,7 +40,7 @@ export const deleteRedisDataByKey = async (key: string) => {
   } catch (error) {
     return false;
   }
-}
+};
 
 redisConnection.on('connect', () => {
   logger.info({}, 'Redis Connected!');
@@ -47,14 +50,14 @@ redisConnection.on('error', (err) => {
   logger.info({}, `Error in connecting redis:  ${err.message}`);
 });
 
-redisConnection.on("close", () => {
+redisConnection.on('close', () => {
   logger.info({}, `Redis Connection closed successfully!`);
 });
 
-redisConnection.on("end", () => {
+redisConnection.on('end', () => {
   logger.info({}, `Redis Connection ended successfully!`);
-})
+});
 
 export const closeRedisConnection = async () => {
   await redisConnection.quit();
-}
+};

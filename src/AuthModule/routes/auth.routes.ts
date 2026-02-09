@@ -28,7 +28,11 @@ const userRepository: IUserRepository = new UserRepository();
 const roleRepository: IRoleRepository = new RoleRepository();
 const roleService: RoleService = new RoleService(roleRepository);
 const userService: UserService = new UserService(userRepository, roleService);
-const authService: AuthService = new AuthService(otpTokenRepository, resetTokenRepository, userService);
+const authService: AuthService = new AuthService(
+  otpTokenRepository,
+  resetTokenRepository,
+  userService,
+);
 const authController: AuthController = new AuthController(authService);
 
 authRouter.post(

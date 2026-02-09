@@ -22,10 +22,7 @@ export class ResetTokenRepository
     return await this.findOne({ user, token });
   }
 
-  async updateTokensExpiryByUserId(
-    userId: string,
-    isExpired: boolean,
-  ): Promise<ResetToken | null> {
+  async updateTokensExpiryByUserId(userId: string, isExpired: boolean): Promise<ResetToken | null> {
     return await this.findOneAndUpdate(
       { user: new Types.ObjectId(userId) },
       { $set: { isExpired: isExpired } },

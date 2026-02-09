@@ -2,7 +2,7 @@ import { getModelForClass, modelOptions, pre, prop, Ref } from '@typegoose/typeg
 import { BaseClass } from '@database/models/base.model';
 import { generateHash } from '@utils/bcrypt';
 import { UserTypeEnum } from '@enums/userType.enum';
-import { Role } from 'RoleModule/models/role.model';
+import { Role } from '@src/RoleModule/models/role.model';
 import { Types } from 'mongoose';
 
 @pre<User>('save', async function (next) {
